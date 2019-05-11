@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+/* Font */
+.nav {
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+	color: #222;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.navbar, footer {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F7452E;
+    color: white;
+}
+body {
+	background-color: #F0F1F5;
+	overflow-x: hidden;
+}
+
+/* Navbar */
+.nav-link {
+	font-size: 1.2em !important;
+	display: block;
+}
+#search-bar {
+	visibility: hidden;
+	position: fixed;
+	z-index: 1;
+}
+#search-bar input {
+	height: 38px !important;
+}
+#search-bar button {
+	height: 38px;
+}
+.search-toggle {
+	background-color: transparent;
+	border: none;
+}
+.search-toggle:hover {
+	cursor: pointer;
+}
+
+.search-button {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+/* footer */
+footer {
+	background-color: #F7452E;
+	color: white;
+}
+.padding {
+    padding: 1rem;
+}
+footer hr {
+	border: none;
+	width: 70%;
+	border-top: 1px solid #cfc6c6;
+}
+
+footer i {
+	
+	margin-right: 1rem;
+}
+
+.fa-facebook {
+	font-size: 2em;
+	padding: 10px 10px 0 15px;
+	display: inline-block;
+	color: white;
+	background-color: #1D4B99;
+	border-radius: 2px;
+}
+.fa-facebook:hover {
+	color: rgb(157, 226, 226);
+}
+
+/* Heading */
+.heading {
+  border-left: 8px double #F7452E;
+  padding-left: 1.5rem;
+  margin: 1rem 0 0.5rem 0;
+}
+
+/* Card */
+.card:hover {
+	box-shadow: 1px 1px 4px #b4b4b4;
+	transition: 0.3s;
+}
+
+/* Link title */
+.title {
+	color: #222;
+}
+.title:hover {
+	text-decoration: none;
+}

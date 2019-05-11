@@ -1,0 +1,144 @@
+/* Carousel */
+#homeslides img {
+    width: 100%;
+    max-height: 395px;
+    object-fit: cover;
+}
+
+/* Grid-card */
+.gridcard .card {
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 0;
+    margin: 1px;
+    background-color: rgb(229, 231, 240);
+}
+
+.bigcard {
+    height: 242px;
+    width: 240px;
+}
+.bigcard .img {
+    width: 230px;
+    height: 170px;
+}
+.bigcard .img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.smallcard {
+    height: 120px;
+    width: 240px;
+}
+.smallcard .img {
+    width: 80px;
+    height: 80px;
+}
+.smallcard .img img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Card-img-bottom */
+.cardbottom {
+    border: none;
+    border-radius: 0;
+    margin: 1px;
+    box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 0 0;
+}
+.cardbottom .row {
+    width: 297px;
+    height: 67px;
+}
+.cardbottom .col {
+    height: 60px;
+}
+.cardbottom img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Normal list card */
+.normalcards .card {
+    width: 189px;
+    height: 325px;
+    margin: 3px;
+}
+.normalcards .card .img {
+    width: 189px;
+    height: 189px;
+}
+.normalcards img {
+    width: 99%;
+    height: 100%;
+}
+/* Price */
+.currentprice {
+    font-size: 18px;
+    color: #f57224;
+}
+.pastprice {
+    font-size: 14px;
+    text-decoration: line-through;
+}
+
+/* Rating */
+.rating i{
+    font-size: 12px;
+    margin: -1px;
+}
+.rating .light {
+    color:#F7CA51;
+}
+.rating .dark {
+    color: #DADADA;
+}
+.rating .half {
+    background: linear-gradient(to right, #F7CA51 0%, #F7CA51 50%, #DADADA 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.rating .comment {
+    font-size: 12px;
+}
+
+/* Seen product */
+.seenproduct .row {
+    background-color: white;
+}
+.seenproduct .card {
+    border: none;
+}
+
+
+/* Multiline ellipse
+/* mixin for multiline */
+/* @mixin multiLineEllipsis($lineHeight: 1.2em, $lineCount: 1, $bgColor: white){
+  overflow: hidden;
+  position: relative;
+  line-height: $lineHeight;
+  max-height: $lineHeight * $lineCount; 
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: $bgColor;
+  }
+}
+
+.block-with-text {
+  @include multiLineEllipsis($lineHeight: 1.2em, $lineCount: 2, $bgColor: white);  
+} */
