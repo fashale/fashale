@@ -1,0 +1,54 @@
+/* Card category */
+.cardcat {
+    width: 171px;
+    height: 140px;
+    border-radius: 0;
+}
+.cardcat .img {
+    width: 171;
+    height: 100px;
+}
+.cardcat img {
+    width: 99%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Carousel */
+#homeslides img {
+    width: 100%;
+    max-height: 395px;
+    object-fit: cover;
+}
+
+/* Filter and list card */
+.filter {
+    width: 20%;
+}
+.gridcard {
+    width: 80%;
+}
+
+/* Normal list card */
+.normalcards .card {
+    width: 189px;
+    height: 325px;
+    margin: 3px;
+}
+.normalcards .card .img {
+    width: 189px;
+    height: 189px;
+}
+.normalcards img {
+    width: 99%;
+    height: 100%;
+}
+
+/* Price filter */
+.pricefilter input {
+    width: 80px;
+    padding: 0;
+}
+.filter h6 {
+    margin-top: -5px;
+}

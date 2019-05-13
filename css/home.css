@@ -73,35 +73,7 @@
     width: 99%;
     height: 100%;
 }
-/* Price */
-.currentprice {
-    font-size: 18px;
-    color: #f57224;
-}
-.pastprice {
-    font-size: 14px;
-    text-decoration: line-through;
-}
 
-/* Rating */
-.rating i{
-    font-size: 12px;
-    margin: -1px;
-}
-.rating .light {
-    color:#F7CA51;
-}
-.rating .dark {
-    color: #DADADA;
-}
-.rating .half {
-    background: linear-gradient(to right, #F7CA51 0%, #F7CA51 50%, #DADADA 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.rating .comment {
-    font-size: 12px;
-}
 
 /* Seen product */
 .seenproduct .row {
