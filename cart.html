@@ -16,10 +16,10 @@
 
 <body>
 
-    <div class="row">
+    <div class="row m-0">
         <div class="col-8">
             <!-- Select all -->
-            <div class="row" style="background-color: white;">
+            <div class="row mb-2 m-0 bg-white">
                 <div class="col">
                     <div class="custom-control custom-checkbox mr-sm-2">
                         <input type="checkbox" class="custom-control-input" id="louis">
@@ -27,19 +27,19 @@
                     </div>
                 </div>
                 <div class="col text-right">
-                    <a href="#"><i class="fa fa-trash text-muted mr-1" aria-hidden="true"></i>XOÁ</a>
+                    <a href="#" class="title text-muted"><i class="fa fa-trash mr-2 text-muted mr-1" aria-hidden="true"></i>XOÁ</a>
                 </div>
             </div>
 
             <!-- Detail -->
-            <table class="table table-hover table-light">
+            <table class="table">
                 <tbody>
-                    <tr>
-                        <th scope="row">
+                    <tr class="bg-white">
+                        <td class="pt-5">
                             <div class="form-check">
                                 <input class="form-check-input position-static" type="checkbox" value="option1" aria-label="...">
                             </div>
-                        </th>
+                        </td>
                         <td>
                             <div class="row">
                                 <div class="col-3">
@@ -61,35 +61,136 @@
                             <p class="pastprice m-0 text-muted d-inline">45.000đ</p>
                             <small class="">-10%</small>
                             <div class="align-items-center">
-                                <i class="fa fa-trash text-muted" aria-hidden="true"></i>
+                                <i class="fa fa-trash mr-2 text-muted" aria-hidden="true"></i>
                                 <i class="fa fa-heart text-muted" aria-hidden="true"></i>
                             </div>
                         </td>
                         <td>
-                            <input type="number" name="" id="" class="form-control cartNumber" value="1" min="1" style="max-width: 50px;">
+                            <input type="number" name="" id="" class="form-control cartNumber" value="1" min="1">
                         </td>
                         <td>
                             <p>Total</p>
                             <p class="totalPrice m-0">45.000</p>
                         </td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
+                    <tr class="bg-white">
+                        <td class="pt-5">
+                            <div class="form-check">
+                                <input class="form-check-input position-static" type="checkbox" value="option1" aria-label="...">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="smallimg">
+                                        <img class="card-img-top img-fluid" src="imgs/card1.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="title">
+                                        <p class="">Tên sản phẩm</p>
+                                    </a>
+                                    <a href="#" class="title d-block text-muted"><span>Hãng</span></a>
+                                    <small>Còn 1 sản phẩm</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="currentprice m-0">45.000</p>
+                            <p class="pastprice m-0 text-muted d-inline">45.000đ</p>
+                            <small class="">-10%</small>
+                            <div class="align-items-center">
+                                <i class="fa fa-trash mr-2 text-muted" aria-hidden="true"></i>
+                                <i class="fa fa-heart text-muted" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="number" name="" id="" class="form-control cartNumber" value="1" min="1">
+                        </td>
+                        <td>
+                            <p>Total</p>
+                            <p class="totalPrice m-0">45.000</p>
+                        </td>
                     </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
+                    
+                    <tr class="bg-white">
+                        <td class="pt-5">
+                            <div class="form-check">
+                                <input class="form-check-input position-static" type="checkbox" value="option1" aria-label="...">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="smallimg">
+                                        <img class="card-img-top img-fluid" src="imgs/card1.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="title">
+                                        <p class="">Tên sản phẩm</p>
+                                    </a>
+                                    <a href="#" class="title d-block text-muted"><span>Hãng</span></a>
+                                    <small>Còn 1 sản phẩm</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="currentprice m-0">45.000</p>
+                            <p class="pastprice m-0 text-muted d-inline">45.000đ</p>
+                            <small class="">-10%</small>
+                            <div class="align-items-center">
+                                <i class="fa fa-trash mr-2 text-muted" aria-hidden="true"></i>
+                                <i class="fa fa-heart text-muted" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="number" name="" id="" class="form-control cartNumber" value="1" min="1">
+                        </td>
+                        <td>
+                            <p>Total</p>
+                            <p class="totalPrice m-0">45.000</p>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-4">
-
+        <div class="col-4 pl-0">
+            <div class="p-3 bg-white">
+                <p class="text-muted">Địa điểm</p>
+                <i class="fa fa-map-marker bigIcon"></i>
+                <span>Địa điểm</span>
+                <hr>
+                
+                <p class="mediumFontSize">Thông tin đơn hàng</p>
+                <div class="row">
+                    <div class="col">
+                        <p>Tạm tính</p>
+                        <p>Phí giao hàng</p>
+                    </div>
+                    <div class="col text-right">
+                        <p class="currentprice">100.000</p>
+                        <p class="currentprice">10.000</p>
+                    </div>
+                </div>
+                <form class="form-inline">
+                    <input type="text" class="form-control" placeholder="Mã giảm giá">
+                    <button type="submit" class="btn btn-success ml-2">Áp dụng</button>
+                </form>
+                <div class="row mt-4">
+                    <div class="col">
+                        <p>Tổng cộng</p>
+                    </div>
+                    <div class="col text-right">
+                        <p class="currentprice">110.000</p>
+                        <small>Đã bao gồm VAT (nếu có)</small>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-block mt-2">Xác nhận giỏ hàng</button>
+            </div>
+            
         </div>
+        
     </div>
 
 <!-- Optional JavaScript -->

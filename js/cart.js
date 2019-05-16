@@ -1,6 +1,6 @@
 $(".cartNumber").on("click", function() {
     var num = $(this).val();
-    var $price = $(".currentprice");
-    var price = $price.text();
-    $(".totalPrice").text((num * price).toFixed(3));
+    var $totalPrice = $(this).parent().parent().find(".totalPrice");
+    var price = $(this).parent().parent().find(".currentprice").text();
+    $totalPrice.text((num * price).toFixed(3));
 });

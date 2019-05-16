@@ -12,3 +12,18 @@
 .currentprice::after {
     content: "đ";
 }
+
+/* Number of products in cart */
+.cartNumber {
+    width: 50px;
+}
+
+/* Icon */
+.bigIcon {
+    font-size: 18px;
+}
+
+/* Font size */
+.mediumFontSize {
+    font-size: 18px;
+}
