@@ -1,0 +1,65 @@
+/* Image group in detail */
+.imgGroup {
+    width: 338px;
+    height: 410px;
+    border: none;
+}
+.imgGroup .img {
+    width: 330px;
+    height: 330px;
+}
+.imgGroup img {
+    width: 100%;
+    height: 100%;
+}
+.imgGroup .row img {
+    width: 50px;
+    height: 50px;
+    margin-right: 5px;
+}
+.imgGroup i {
+    cursor: pointer;
+    color: hsl(0, 0%, 50%);
+    padding: 10px;
+}
+
+/* Product info */
+.info {
+    width: 520px;
+}
+.info .currentprice {
+    font-size: 30px;
+}
+.info .pastprice {
+    font-size: 18px;
+}
+
+.info .color img {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+}
+.cartNumber {
+    width: 100px;
+}
+.card:hover {
+    box-shadow: none;
+}
+
+/* Delivery info */
+.delivery i {
+    color: hsl(0, 0%, 50%)
+}
+.deliveryWarranty {
+    background-color: hsl(0, 0%, 98%);
+}
+
+.warranty ul {
+    list-style-type: none;
+}
+.border-right {
+    border-right: 1px solid hsl(0, 0%, 70%);
+}
+.shop .bigSize {
+    font-size: 24px;
+}
