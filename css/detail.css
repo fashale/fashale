@@ -25,7 +25,7 @@
 
 /* Product info */
 .info {
-    width: 520px;
+    max-width: 520px;
 }
 .info .currentprice {
     font-size: 30px;
@@ -62,4 +62,48 @@
 }
 .shop .bigSize {
     font-size: 24px;
+}
+
+/* Description */
+.description {
+    
+}
+
+/* Normal list card */
+.normalcards .card {
+    width: 189px;
+    height: 325px;
+    margin: 0 15px;
+}
+.normalcards .card .img {
+    width: 189px;
+    height: 189px;
+}
+.normalcards img {
+    width: 99%;
+    height: 100%;
+}
+
+/* Rating point */
+.summary {
+    width: 200px;
+    height: 120px;
+}
+.point {
+    font-size: 48px;
+}
+.totalPoint {
+    font-size: 32px;
+}
+.sizeBig i {
+    font-size: 20px;
+    margin: 2px;
+}
+.normalSize i {
+    font-size: 14px;
+    margin: 1px;
+}
+.comment .fa-thumbs-up {
+    color: hsl(0, 0%, 70%);
+    cursor: pointer;
 }
