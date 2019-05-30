@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Seller registration</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sellerregistration.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class=" col-12 col-sm-12 col-md-12 col-lg-8 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    Đăng ký
+                </div>
+                <div class="card-body">
+                    <form action="#">
+                        <div class="form-group">
+                            <label class="mr-4">Loại hình *</label>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="single" name="example" value="customEx">
+                                <label class="custom-control-label" for="single">Cá nhân</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="company" name="example" value="customEx">
+                                <label class="custom-control-label" for="company">Công ty</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Nhập địa chỉ kho *</label>
+                            <textarea class="form-control" name="location" id="location" rows="3" style="resize: none;" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" class="d-block">Số điện thoại *</label>
+                            <input type="text" class="form-control w-75 d-inline" id="phone" placeholder="Nhập số điện thoại" name="phone"
+                                required>
+                            <a name="" id="" class="btn btn-primary mb-1" href="#" role="button">Send</a>
+                        </div>
+                        <div class="form-group">
+                            <label for="identify">Mã xác thực *</label>
+                            <input type="text" class="form-control w-25" id="identify" placeholder="Nhập mã xác thực" name="identify"
+                                required>
+                        </div>
+                        <div class="form-group form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="remember" required> Tôi đồng ý với điều khoản và điều
+                                kiện của Fashale.
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
