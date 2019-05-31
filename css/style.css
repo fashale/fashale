@@ -103,8 +103,13 @@ footer i {
 }
 
 /* Price */
+.price{
+	font-size: 18px;
+}
+.price:after {
+	content: 'đ';
+}
 .currentprice {
-    font-size: 18px;
     color: #f57224;
 }
 .pastprice {
