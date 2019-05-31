@@ -1,12 +1,12 @@
 /* Image group in detail */
 .imgGroup {
-    width: 338px;
-    height: 410px;
+    max-width: 338px;
+    max-height: 410px;
     border: none;
 }
 .imgGroup .img {
-    width: 330px;
-    height: 330px;
+    max-width: 330px;
+    max-height: 330px;
 }
 .imgGroup img {
     width: 100%;
@@ -28,7 +28,7 @@
     max-width: 520px;
 }
 .info .currentprice {
-    font-size: 30px;
+    font-size: 1.5em;
 }
 .info .pastprice {
     font-size: 18px;
