@@ -1,0 +1,112 @@
+<% include ./../../helpers/image %>
+<% include ./../../helpers/select-box %>
+
+<% 
+  const collection = 'products';
+  const linkPrefix = systemConfig.prefixBackend + `/${collection}/`;
+  const folderUpload = 'uploads/products/';
+%>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Biểu mẫu
+            </div>
+            <div class="panel-body">
+                <% include ./../../elements/errors %>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form role="form" action="<%= linkPrefix %>save/" enctype="multipart/form-data" method="POST">
+                            <div class="form-group">
+                                <label>Tên sản phẩm</label>
+                                <input class="form-control" name="name" value="<%= product.name %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Ảnh minh họa</label>
+                                <input class="form-control" type="file" name="thumb">
+                            </div>
+                            <% if (product.id !== undefined && product.id !== '') { %>
+                                <div class="form-group">
+                                  <label></label>
+                                  <%- imageHelper(folderUpload, product.thumb, product.name, 'img-avatar-form') %>
+                                </div>
+                            <% } %>
+
+                            <div class="form-group">
+                                <label>Loại phục trang</label>
+                                <%- selectBoxHelper('category_id', listCategories, product.category.id) %>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Thương hiệu</label>
+                                <%- selectBoxHelper('brand_id', listBrands, product.brand.id) %>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Trạng thái</label>
+                                <select name="status" class="form-control">
+                                    <option value="novalue" <% (product.status == 'novalue') ? 'selected="selected"' : '' %> >Chọn trạng thái</option>
+                                    <option value="active" <%= (product.status == "Hoạt động") ? 'selected="selected"' : '' %> >Hoạt động</option>
+                                    <option value="inactive" <%= (product.status == "Không hoạt động") ? 'selected="selected"' : '' %> >Không hoạt động</option>
+                                </select>
+                            </div>
+                            
+
+                            <div class="form-group">
+                                <label>Kích cỡ</label>
+                                <select name="size" class="form-control">
+                                    <option value="novalue" <% (product.size == 'novalue') ? 'selected="selected"' : '' %> >Chọn kích cỡ</option>
+                                    <option value="S" <%= (product.size == "S") ? 'selected="selected"' : '' %> >S</option>
+                                    <option value="M" <%= (product.size == "M") ? 'selected="selected"' : '' %> >M</option>
+                                    <option value="L" <%= (product.size == "L") ? 'selected="selected"' : '' %> >L</option>
+                                    <option value="XL" <%= (product.size == "XL") ? 'selected="selected"' : '' %> >XL</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Khuyến mãi</label>
+                                <input class="form-control" name="promotion" value="<%= product.promotion %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Giá</label>
+                                <input class="form-control" name="price" value="<%= product.price %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Số lượng bán</label>
+                                <input class="form-control" name="number_sell" value="<%= product.number_sell %>">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tóm tắt</label>
+                                <textarea class="form-control" name="summary" value="<%= product.summary %>"><%= product.summary %></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Nội dung</label>
+                                <textarea class="form-control" name="content" rows="2" id="content_ckeditor" value="<%- product.content %>"><%- product.content %></textarea>
+                            </div>
+
+                            <div>
+                                <input name="image_old" value="<%= product.thumb %>" type="hidden"/>
+                                <input class="form-control" name="id" value="<%= product.id %>" type="hidden">
+                                <input class="form-control" name="category_name" value="<%= product.category.name %>" type="hidden">
+                                <input class="form-control" name="brand_name" value="<%= product.brand.name %>" type="hidden">
+                                <button type="submit" class="btn btn-primary">Hoàn tất </button>
+                                <a type="button" href="<%= linkPrefix %>" class="btn btn-default">Hủy bỏ</a>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    CKEDITOR.replace('content_ckeditor');
+</script>

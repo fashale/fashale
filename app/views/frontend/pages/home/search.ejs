@@ -1,0 +1,68 @@
+<% include ./../../helpers/pagination %>
+
+<% 
+    function createSlug(value) {
+        var str = value;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ấ|ầ|ẩ|ẫ|ậ|ă|ắ|ằ|ẳ|ẵ|ặ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ế|ề|ể|ễ|ệ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ứ|ừ|ử|ữ|ự/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ *? /g, "-");
+        str = str.trim();
+        return str;
+    }
+    const linkPrefix = systemConfig.prefixFrontend + `/search/`;
+    const folder_uploads = 'uploads/articles/';
+%> 
+
+<link rel="stylesheet" href="frontend/css/category_style.css">
+
+<!-- category name -->
+<div class="container">
+    <div class="cat-heading heading">
+        <a href="#" class="text-decoration-none">
+            <h3 class="display-4 m-1"><%= params.keyword %></h3>
+        </a>
+    </div>
+</div>
+
+<!-- card-grid -->
+<div class="container card-grid justify-content-center">
+    <% articles.forEach((article) => { %>
+    <div class="card text-left">
+        <a href="/details/<%= createSlug(article.name) %>">
+            <img class="card-img-top" src="<%= folder_uploads + article.thumb %>" alt="<%= article.thumb %>">
+        </a>
+        <div class="card-body">
+            <% if (article.type == 'Premium') { %>
+                <div class="btn btn-sm btn-warning btn-inline">PREMIUM</div>
+            <% } %>
+            
+            <a href="/details/<%= createSlug(article.name) %>">
+                <h5 class="card-title"><%= article.name %></h5>
+            </a>
+            <p class="card-text cat-time">
+                <small class="text-muted">
+                    <a href="/categories/<%= createSlug(article.category.name) %>" class="text-muted"><%= article.category.name %></a>
+                    <span class="middotDivider"></span><%= moment(article.published.time).format(systemConfig.format_long_time) %><br>
+                    <% article.tags.forEach((tag) => { %>
+                        <a href="/hashtags/<%= createSlug(tag) %>" class="text-muted">#<%= tag %></a>
+                    <% }) %>
+                    
+                </small>
+            </p>
+            <p class="card-text"><%= article.summary %></p>
+        </div>
+    </div>
+    <% }) %>
+</div>
+
+<hr class="my-4 container">
+<nav aria-label="Page navigation example">
+    <%- paginationHelper(params.pagination, linkPrefix, params.keyword) %>
+</nav>

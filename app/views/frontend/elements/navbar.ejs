@@ -1,0 +1,110 @@
+<%
+    function createSlug(value) {
+        var str = value;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ấ|ầ|ẩ|ẫ|ậ|ă|ắ|ằ|ẳ|ẵ|ặ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ế|ề|ể|ễ|ệ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ứ|ừ|ử|ữ|ự/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ *? /g, "-");
+        str = str.trim();
+        return str;
+    }
+    const linkPrefix = systemConfig.prefixFrontend + `/auth/`;
+%>
+
+<% if (pageTitle != 'ERROR PAGE') { %>
+<nav class="navbar navbar-expand-md navbar-dark mynav sticky-top">
+    <a class="navbar-brand ml-lg-4" href="#"><img src="frontend/img/logo.jpg" alt="logo"></a>
+    <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item dropdown <%= (pageTitle == 'home') ? 'active' : '' %> mr-lg-2">
+                <a class="nav-link" href="/" aria-haspopup="true" aria-expanded="false">Trang chủ</a>
+            </li>
+            <li class="nav-item dropdown <%= (pageTitle == 'brands') ? 'active' : '' %> mr-lg-2">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Thương hiệu</a>
+                    <% if (Object.keys(listBrands).length > 0) { %>
+                        <div class="dropdown-menu">
+                            <% listBrands.forEach((brand) => { %>
+                                <a class="dropdown-item" href="/brands/<%= createSlug(brand.name) %>/"><%= brand.name %></a>
+                            <% }) %>
+                        </div>
+                    <% } %>
+            </li>
+            <li class="nav-item dropdown <%= (pageTitle == 'categories' && params.gender == 'Nữ') ? 'active' : '' %> mr-lg-2">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Nữ</a>
+                    <% if (Object.keys(listFemaleCategories).length > 0) { %>
+                        <div class="dropdown-menu">
+                            <% listFemaleCategories.forEach((category) => { %>
+                                <a class="dropdown-item" href="/categories/female/<%= createSlug(category.name) %>/"><%= category.name %></a>
+                            <% }) %>
+                        </div>
+                    <% } %>
+            </li>
+            <li class="nav-item dropdown <%= (pageTitle == 'categories' && params.gender == 'Nam') ? 'active' : '' %> mr-lg-2">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Nam</a>
+                    <% if (Object.keys(listMaleCategories).length > 0) { %>
+                        <div class="dropdown-menu">
+                            <% listMaleCategories.forEach((category) => { %>
+                                <a class="dropdown-item" href="/categories/male/<%= createSlug(category.name) %>/"><%= category.name %></a>
+                            <% }) %>
+                        </div>
+                    <% } %>
+            </li>
+            <li class="nav-item mr-lg-2 d-flex align-items-center">
+                <a class="nav-link search-toggle" onclick="showSearchBar()"><i class="fa fa-search" aria-hidden="true"></i></a>
+            </li>
+            <% if (Object.keys(userInfo).length == 0) { %>
+            <li class="nav-item mr-lg-2 d-flex align-items-center">
+                <a href="/auth/login" class="nav-link" title="Đăng nhập"><i class="fa fa-sign-in mr-2"></i><span
+                        class="d-inline d-sm-inline d-md-none d-lg-none d-xl-inline">Đăng nhập</span></a>
+            </li>
+            <li class="nav-item mr-lg-2 d-flex align-items-center">
+                <a href="auth/register" class="nav-link" title="Đăng kí"><i class="fa fa-user-plus mr-2"></i><span
+                        class="d-inline d-sm-inline d-md-none d-lg-none d-xl-inline">Đăng kí</span></a>
+            </li>
+            <% } else { %>
+                <li class="nav-item dropdown <%= (pageTitle == 'cart') ? 'active' : '' %> mr-lg-2">
+                    <a class="nav-link" href="/cart" aria-haspopup="true" aria-expanded="false">Giỏ hàng</a>
+                </li>
+                <li class="nav-item mr-lg-2 d-flex align-items-center dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Tài khoản"><i
+                            class="fas fa-user-circle mr-2"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="<%= linkPrefix %>info">Xem thông tin</a>
+                        <% if (userInfo.email == systemConfig.email_admin) { %>
+                            <a class="dropdown-item" href="/<%= systemConfig.prefixBackend %>">Quản lý</a>
+                        <% } %>
+                        <a class="dropdown-item" href="/auth/change-password">Đổi mật khẩu</a>
+                        <a class="dropdown-item" href="<%= linkPrefix %>logout">Đăng xuất</a>
+                    </div>
+                </li>
+            <% } %> 
+        </ul>
+    </div>
+</nav>
+
+<!-- Search bar -->
+
+<div id="search-bar" style="width: 100%;">
+    <form action="/search" method="get">
+        <div class="input-group container-fluid mt-2">
+            <input class="form-control form-inline" type="text" name="keyword" placeholder="Search">
+            <div class="input-group-append"> 
+                <button class="btn btn-success m-0 search-button" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+<% } %>

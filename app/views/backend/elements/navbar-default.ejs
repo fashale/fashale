@@ -1,0 +1,70 @@
+<div class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li>
+                <a href="#">
+                    <i class="fa fa-group fa-fw"></i> Tài khoản
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse on" aria-expanded="true">
+                    <li>
+                        <a href="/"><i class="fa fa-angle-double-right   fa-fw"></i> Trang chủ </a>
+                    </li>
+                    <li>
+                        <a href="/auth/logout"><i class="fa fa-angle-double-right   fa-fw"></i> Đăng xuất </a>
+                    </li>
+                </ul>
+            </li>
+            <% if (moduleTitle != 'ERROR PAGE') { %>
+            <li>
+                <% if (pageTitle.includes('loại phục trang')) { %>
+                <a href="/<%= systemConfig.prefixBackend %>/categories">  
+                <% } else if (pageTitle.includes('thương hiệu')) { %>
+                <a href="/<%= systemConfig.prefixBackend %>/brands">
+                <% } else if (pageTitle.includes('sản phẩm')) { %>
+                <a href="/<%= systemConfig.prefixBackend %>/products">
+                <% } else if (pageTitle.includes('hóa đơn')) { %>
+                <a href="/<%= systemConfig.prefixBackend %>/bills">
+                <% } else if (pageTitle.includes('người dùng')) { %>
+                <a href="/<%= systemConfig.prefixBackend %>/users">  
+                <% } %> 
+
+                <i class="fa fa-dashboard fa-fw"></i> CRUD
+                
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-group fa-fw"></i> Quản lý Items
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse on" aria-expanded="true">
+                    <li>
+                        <a href="/<%= systemConfig.prefixBackend %>/categories"><i class="fa fa-angle-double-right   fa-fw"></i> Loại phục trang </a>
+                    </li>
+                    <li>
+                        <a href="/<%= systemConfig.prefixBackend %>/brands"><i class="fa fa-angle-double-right   fa-fw"></i> Thương hiệu </a>
+                    </li>
+                    <li>
+                        <a href="/<%= systemConfig.prefixBackend %>/bills"><i class="fa fa-angle-double-right   fa-fw"></i> Hóa đơn </a>
+                    </li>
+                    <li>
+                        <a href="/<%= systemConfig.prefixBackend %>/products"><i class="fa fa-angle-double-right   fa-fw"></i> Sản phẩm </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-group fa-fw"></i> Quản lý Users
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse on" aria-expanded="true">
+                    <li>
+                        <a href="/<%= systemConfig.prefixBackend %>/users"><i class="fa fa-angle-double-right   fa-fw"></i> Người dùng </a>
+                    </li>
+                </ul>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+{
+  "name": "fashale",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/th16-news/16TH-News.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/th16-news/16TH-News/issues"
+  },
+  "homepage": "https://github.com/th16-news/16TH-News#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.16.1",
+    "express-validator": "^5.3.1",
+    "http-errors": "^1.7.2",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.6",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1",
+    "nodemailer": "^6.2.1",
+    "nodemon": "^1.19.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "randomstring": "^1.1.5"
+  }
+}

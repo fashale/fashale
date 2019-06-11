@@ -1,0 +1,164 @@
+<% 
+    function createSlug(value) {
+        var str = value;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ấ|ầ|ẩ|ẫ|ậ|ă|ắ|ằ|ẳ|ẵ|ặ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ế|ề|ể|ễ|ệ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ứ|ừ|ử|ữ|ự/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ *? /g, "-");
+        str = str.trim();
+        return str;
+    }
+    const folder_uploads = 'uploads/products/';
+    const folder_uploads_users = 'uploads/users/';
+%>
+
+<link rel="stylesheet" href="frontend/css/detail.css">
+
+<div class="row container-fluid ml-0 mr-0">
+    <div class="col-sm-6 col-md-6 col-lg-4">
+        <div id="sliderImg" class="carousel slide imgGroup mx-auto" data-ride="carousel">
+            <ol class="carousel-indicators d-none">
+                <li data-target="#sliderImg" data-slide-to="0" class="active"></li>
+                <li data-target="#sliderImg" data-slide-to="1"></li>
+                <li data-target="#sliderImg" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <img src="<%= folder_uploads + product.thumb %>" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img src="<%= folder_uploads + product.thumb %>" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img src="<%= folder_uploads + product.thumb %>" alt="Third slide">
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#sliderImg" role="button" data-slide="prev"
+                style="position:absolute; left: -20px;">
+                <span class="carousel-control-prev-icon bg-info" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#sliderImg" role="button" data-slide="next"
+                style="position:absolute; right:-20px;">
+                <span class="carousel-control-next-icon bg-info" aria-hidden="true"></span>
+                                <span class=" sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-4 bg-white">
+        <div class="info ml-lg-0">
+            <h5 class="mt-2"><%= product.name %></h5>
+            <p>
+                Thương hiệu: <span><%= product.brand.name %></span>
+            </p>
+            <p>
+                Loại phục trang: <span><%= product.category.name %></span>
+            </p>
+            <hr>
+            <p>
+                Kích cỡ: <span><%= product.size %></span>
+            </p>
+            <p class="price currentprice m-0"><%= product.price %></p>
+            <span><%= product.promotion %></span>
+            <hr>
+            <div class="d-flex justify-content-center ml-0 mr-0 mt-3 mb-2">
+                <a name="" id="" class="btn btn-danger w-50" href="#" role="button">Thêm vào giỏ</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row ml-0 mr-0">
+    <div class="description container-fluid col-lg-9 mx-atuo">
+        <div class="bg-white">
+            <div class="m-3">
+                <h4 class="heading">Mô tả sản phẩm</h4>
+                <h5 class="mb-1">Tóm tắt</h5>
+                <div class="row ml-0 mr-0">
+                    <%= product.summary %>
+                </div>
+                <hr>
+                <h5 class="mb-1">Chi tiết</h5>
+                <div>
+                    <%- product.content %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row ml-0 mr-0">
+    <div class="description container-fluid col-lg-9 mx-atuo">
+        <div class="bg-white">
+            <div class="m-3">
+                <h4 class="heading">Nhận xét về sản phẩm</h4>
+                <hr>
+
+                <div class="d-flex justify-content-center mt-4">
+                        <div class="comment">
+                            <% if (user == true) { %>
+                            <form action="/details/<%= createSlug(product.brand.name) %>/<%= createSlug(product.category.name) %>/<%= createSlug(product.name) %>" method="post">
+                                <div class="card">
+                                    <div class="d-float mt-3 ml-3">
+                                        <a href="#">
+                                            <% if (userInfo.avatar != undefined && userInfo.avatar != '') { %>
+                                                <img src="<%= folder_uploads_users + userInfo.avatar %>" alt="comment-icon" class="user-icon float-left mr-2">
+                                            <% } else { %>
+                                                <img src="<%= folder_uploads_users + 'no-avatar.jpg' %>" alt="comment-icon" class="user-icon float-left mr-2">
+                                            <% } %>
+                                        </a>
+                                    </div>
+                                    <textarea name="content" cols="30" rows="2" placeholder="Write your response..."
+                                        class="form-control border-0 float-left m-1" style="width: 99%; resize:none;"></textarea>
+                                    <div class="inline-block m-2">
+                                        <input class="btn btn-sm btn-primary btn-inline" type="submit" value="Đăng bình luận"></input>
+                                    </div>
+                                </div>
+                            </form> 
+                            <% } else { %>
+                                <div class="card">
+                                    <div class="d-float mt-3 ml-3">
+                                        <a href="#">
+                                            <img src="frontend/img/comment-icon.png" alt="comment-icon" class="user-icon float-left mr-2">
+                                        </a>
+                                    </div>
+                                    <textarea name="content" cols="30" rows="2" placeholder="Write your response..."
+                                        class="form-control border-0 float-left m-1" style="width: 99%; resize:none;"></textarea>
+                                    <div class="inline-block m-2">
+                                        <button class="btn btn-sm btn-primary btn-inline" onclick="alert('Bạn cần đăng nhập')">Đăng bình luận</button>
+                                    </div>
+                                </div>
+                            <% } %>
+                            <% product.comments.reverse().forEach((comment) => { %>
+                                <div class="card">
+                                    <div class="d-float mt-3 ml-3">
+                                        <a href="#">
+                                            <% if (comment.user_avatar != undefined && comment.user_avatar != '') { %>
+                                                <img src="<%= folder_uploads_users + comment.user_avatar %>" alt="comment-icon" class="user-icon float-left mr-2">
+                                            <% } else { %>
+                                                <img src="<%= folder_uploads_users + 'no-avatar.jpg' %>" alt="comment-icon" class="user-icon float-left mr-2">
+                                            <% } %>
+                                        </a>
+                                        <p class="text-muted">
+                                            <a href="#" class="text-muted text-decoration-none"><%= comment.user_name %></a>
+                                            <br><%= moment(comment.time).format(systemConfig.format_long_time) %> %>
+                                        </p>
+                                    </div>
+                                    <p class="card-text ml-3 mb-3 mr-3"><%= comment.content %></p>
+                                </div>
+                            <% }) %>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+

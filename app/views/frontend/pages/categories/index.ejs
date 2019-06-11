@@ -1,0 +1,70 @@
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/selectbox %>
+
+
+<% 
+    function createSlug(value) {
+        var str = value;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ấ|ầ|ẩ|ẫ|ậ|ă|ắ|ằ|ẳ|ẵ|ặ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ế|ề|ể|ễ|ệ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ứ|ừ|ử|ữ|ự/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ *? /g, "-");
+        str = str.trim();
+        return str;
+    }
+    const folder_uploads = 'uploads/products/';
+    const linkPrefix = systemConfig.prefixFrontend + `/categories/` + createSlug(productInCategory[0].category.name) + '/';
+%> 
+
+<link rel="stylesheet" href="frontend/css/category.css">
+
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="gridcard col">
+            <div>
+                <h5><%= nameCategory %></h5>
+                <div class="row">
+                    <div class="col">
+                        <p class="text-muted"><%= params.pagination.totalItems %> sản phẩm</p>
+                    </div>
+                    <div class="col">
+                        <span>Sắp xếp theo: </span>
+                        <%- selectboxHelper('sort_in_category', ['product-new', 'product-price', 'product-view'], sort_type_slug) %>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <div class="container-fluid normalcards">
+                <div class="row">
+                    <% productInCategory.forEach((product) => { %>
+                        <div class="card">
+                            <div class="img">
+                                <img class="card-img-top" src="<%= folder_uploads + product.thumb %>" alt="<%= product.thumb %>">
+                            </div>
+                            <div class="p-2">
+                                <a href="/details/<%= createSlug(product.brand.name) %>/<%= createSlug(product.category.name) %>/<%= createSlug(product.name) %>" class="title">
+                                    <p class="mb-2"><%= product.name %></p>
+                                </a>
+                                <a href="/brands/<%= createSlug(product.brand.name) %>/"><small style="color:red"><%= product.brand.name %></small></a><br>
+                                <p class="pricecurrentprice m-0"><%= product.price %> VND</p>
+                                <small class=""><%= product.promotion %></small>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+
+            <hr class="my-4 container">
+            <nav aria-label="Page navigation example">
+                <%- paginationHelper(params.pagination, linkPrefix, params.keyword) %>
+            </nav>
+        </div>
+    </div>
+</div>

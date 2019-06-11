@@ -1,0 +1,57 @@
+<% if (errors) { %>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                <% errors.forEach((error) => { 
+                    var strWord = '';
+                    switch(error.param) {
+                        case 'name':
+                            if (pageTitle == 'Thêm mới loại phục trang') {
+                                strWord = 'Loại phục trang';
+                            } else if (pageTitle == 'Thêm mới thương hiệu') {
+                                strWord = 'Thương hiệu';
+                            } else {
+                                strWord = 'Tên sản phẩm';
+                            }
+                            break;
+                        case 'thumb':
+                            strWord = 'Ảnh minh họa';
+                            break;
+                        case 'category_id':
+                            strWord = 'Loại phục trang';
+                            break;
+                        case 'brand_id':
+                            strWord = 'Thương hiệu';
+                            break;
+                        case 'gender':
+                            strWord = 'Giới tính';
+                            break;
+                        case 'status':
+                            strWord = 'Trạng thái';
+                            break;
+                        case 'size':
+                            strWord = 'Kích cỡ';
+                            break;
+                        case 'price':
+                            strWord = 'Giá';
+                            break;
+                        case 'number_sell':
+                            strWord = 'Số lượng bán';
+                            break;
+                        case 'summary':
+                            strWord = 'Tóm tắt';
+                            break;
+                        case 'content':
+                            strWord = 'Nội dung';
+                            break;
+                        default:
+                    } %>
+                
+                <li><b><%= strWord %></b>: <%= error.msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+</div>
+<% } %>

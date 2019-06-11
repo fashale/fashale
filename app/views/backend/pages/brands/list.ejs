@@ -1,0 +1,65 @@
+<%
+    include ./../../helpers/status
+%>
+<%
+    const collection = 'brands';
+    const linkPrefix = systemConfig.prefixBackend + `/${collection}/`;
+%>
+
+
+<% include ./../../elements/notify %>
+<div class="col-lg-12">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <%= pageTitle %>
+        </div>
+        <div class="panel-body">
+            <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
+                <div class="zcontrols">
+                    <div class="pull-right">
+                        <a href="<%= linkPrefix %>form" class="btn btn-warning btn-addNew">Thêm Mới</a>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Thương hiệu</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (data.length > 0) {
+                                data.reverse().forEach( (item, index) => { %>
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <%= item.name %>
+                                </td>
+                                <td>
+                                    <%- statusHelper(linkPrefix, item.status, item.id, collection) %>
+                                </td>
+                                <td>
+                                    <a href="<%= linkPrefix %>delete/<%= item.id %>" type="button"
+                                        class="btn btn-danger btn-sm btn-delete">Xóa</a>
+                                </td>
+                            </tr>
+                            <% })
+                            } else { %>
+                            <tr>
+                                <td colspan="9">
+                                    <h3>Không có dữ liệu</h3>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

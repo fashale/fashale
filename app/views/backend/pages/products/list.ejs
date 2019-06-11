@@ -1,0 +1,166 @@
+<% include ./../../helpers/status %>
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/image %>
+<% include ./../../helpers/filter-status %>
+
+<% 
+    function createSlug(value) {
+        var str = value;
+        str = str.toLowerCase();
+        str = str.replace(/à|á|ạ|ả|ã|â|ấ|ầ|ẩ|ẫ|ậ|ă|ắ|ằ|ẳ|ẵ|ặ/g, "a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ế|ề|ể|ễ|ệ/g, "e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/g, "o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ứ|ừ|ử|ữ|ự/g, "u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+        str = str.replace(/đ/g, "d");
+        str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, " ");
+        str = str.replace(/ *? /g, "-");
+        str = str.trim();
+        return str;
+    }
+    const collection = 'products';
+    const linkPrefix = systemConfig.prefixBackend + `/${collection}/`;
+    const folderUpload = 'uploads/products/';
+%>
+
+
+<% include ./../../elements/notify %>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Tìm kiếm & Lọc
+                <a href="<%= linkPrefix %>status/all">
+                    <span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="status-list col-sm-6 pl0">
+                        <%- filterStatusHelper(linkPrefix, statusFilter, params.keyword) %>
+                    </div>
+                    <div class="col-sm-5">
+                        <form action="<%= linkPrefix %>status/<%= params.currentStatus %>" method="GET">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="keyword" placeholder="Tìm kiếm..."
+                                    value="<%= params.keyword %>">
+                                <input type="hidden" value="all">
+
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button"><a href="<%= linkPrefix %>status/<%= params.currentStatus %>">Dọn
+                                            dẹp</a></button>
+                                </span>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Danh sách bài viết
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
+                    <div class="zcontrols">
+                        <div class="pull-right">
+                            <a href="<%= linkPrefix %>form" class="btn btn-warning btn-addNew">Thêm Mới</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Ảnh minh họa</th>
+                                    <th>Loại phục trang</th>
+                                    <th>Thương hiệu</th>
+                                    <th>Giới tính</th>
+                                    <th>Trạng thái</th>
+                                    <th>Kích cỡ</th>
+                                    <th>Khuyến mãi</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng bán</th>
+                                    <th>Số lượng còn lại</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (data.length > 0) { 
+                                    data.forEach( (item, index) => { %>
+                                <tr>
+                                    <td>
+                                        <%= (params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage) + index + 1 %>
+                                    </td>
+                                    <td>
+                                        <%= item.name %>
+                                    </td>
+                                    <td>
+                                        <%- imageHelper(folderUpload, item.thumb, item.name) %>
+                                    </td>
+                                    <td>
+                                        <%= item.category.name %>
+                                    </td>
+                                    <td>
+                                        <%= item.brand.name %>
+                                    </td>
+                                    <td>
+                                        <%= item.category.gender %>
+                                    </td>
+                                    <td>
+                                        <%- statusHelper(linkPrefix, item.status, item.id, collection) %>
+                                    </td>
+                                    <td>
+                                        <%= item.size %>
+                                    </td>
+                                    <td>
+                                        <%= item.promotion %>
+                                    </td>
+                                    <td>
+                                        <%= item.price %>
+                                    </td>
+                                    <td>
+                                        <%= item.number_sell %>
+                                    </td>
+                                    <td>
+                                        <%= item.number_remain %>
+                                    </td>
+                                    <td>
+                                        <a href="<%= linkPrefix %>form/<%= item.id %>" type="button"
+                                            class="btn btn-warning btn-sm">Sửa</a>
+                                        <a href="<%= linkPrefix %>delete/<%= item.id %>" type="button"
+                                            class="btn btn-danger btn-sm btn-delete">Xóa</a>
+                                    </td>
+                                </tr>
+                                <% });
+                                } else { %>
+                                <tr>
+                                    <td colspan="9">
+                                        <h3>Không có dữ liệu</h3>
+                                    </td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.keyword) %>
+    </div>
+</div>

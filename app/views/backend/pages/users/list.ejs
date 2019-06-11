@@ -1,0 +1,167 @@
+<% include ./../../helpers/status %>
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/filter-status %>
+<% include ./../../helpers/image %>
+<%
+    function getDate(str) {
+        let year = str.substr(11, 4);
+        let month = '';
+        switch (str.substr(4, 3)) {
+            case 'Jan': 
+                month = '01';
+                break;
+            case 'Feb': 
+                month = '02';
+                break;
+            case 'Mar': 
+                month = '03';
+                break;
+            case 'Apr': 
+                month = '04';
+                break;
+            case 'May': 
+                month = '05';
+                break;
+            case 'Jun': 
+                month = '06';
+                break;
+            case 'Jul': 
+                month = '07';
+                break;
+            case 'Aug': 
+                month = '08';
+                break;
+            case 'Sep': 
+                month = '09';
+                break;
+            case 'Oct': 
+                month = '10';
+                break;
+            case 'Nov': 
+                month = '11';
+                break;
+            case 'Dec': 
+                month = '12';
+                break;
+            default:
+        }
+        let day = str.substr(8, 2);
+        let date = day + "-" + month + "-" + year;
+        return date;
+    }
+
+    const collection = 'users';
+    const linkPrefix = systemConfig.prefixBackend + `/${collection}/`;
+    const folderUpload = 'uploads/users/';
+%>
+
+<% include ./../../elements/notify %>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Tìm kiếm & Lọc
+                <a href="<%= linkPrefix %>status/all">
+                    <span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="status-list col-sm-6 pl0">
+                        <%- filterStatusHelper(linkPrefix, statusFilter, params.keyword) %>
+                    </div>
+                    <div class="col-sm-5">
+                        <form action="<%= linkPrefix %>status/<%= params.currentStatus %>" method="GET">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="keyword" placeholder="Tìm kiếm..."
+                                    value="<%= params.keyword %>">
+                                <input type="hidden" value="all">
+
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button"><a href="<%= linkPrefix %>status/<%= params.currentStatus %>">Dọn
+                                            dẹp</a></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Danh sách người dùng
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <form role="form" class="form-inline zt-form" id="zt-form" action="" method="post">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Họ tên</th>
+                                    <th>Ảnh đại diện</th>
+                                    <th>Trạng thái</th>
+                                    <th>Email</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (data.length > 0) { 
+                                    data.reverse().forEach( (item, index) => { %>
+                                    <tr>
+                                        <td>
+                                            <%= (params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage) + index + 1 %>
+                                        </td>
+                                        <td>
+                                            <%= item.name %>
+                                        </td>
+                                        <td>
+                                            <%- imageHelper(folderUpload, item.avatar, item.name) %>
+                                        </td>
+                                        <td>
+                                            <%- statusHelper(linkPrefix, item.status, item.id, collection) %>
+                                        </td>
+                                        <td><%= item.email %></td>
+
+                                        <% if (item.dob == undefined || item.dob == null) { %>
+                                            <td></td>
+                                        <% } else { %>
+                                            <td><%= getDate(item.dob.toString()) %></td>
+                                        <% } %>
+                                        
+                                        <td>
+                                            <a href="<%= linkPrefix %>delete/<%= item.id %>" type="button"
+                                                class="btn btn-danger btn-sm btn-delete">Xóa</a>
+                                        </td>
+                                    </tr>
+                                    <% });
+                                } else { %>
+                                <tr>
+                                    <td colspan="9">
+                                        <h3>Không có dữ liệu</h3>
+                                    </td>
+                                </tr>
+                                <% } %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.keyword) %>
+    </div>
+</div>

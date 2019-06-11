@@ -1,0 +1,29 @@
+<%
+    function translate(str) {
+        let result = '';
+        switch (str) {
+            case 'product-new':
+                result = 'Sản phẩm mới';
+                break;
+            case 'product-price':
+                result = 'Giá sản phẩm';
+                break;
+            case 'product-view':
+                result = 'Lượt xem sản phẩm';
+                break;   
+            default:
+        }
+        return result;
+    }
+    selectboxHelper = (name, items, optionSelected) => {
+        let xhtml = '';
+        items.forEach((item) => {
+            let selected = (item == optionSelected) ? 'selected' : '';
+            xhtml += `<option value="${item}" ${selected}>${translate(item)}</option>`;      
+        });
+
+        return `
+            <select name="${name}" class="btn btn-outline-info dropdown-toggle">${xhtml}</select>
+        `;
+    }
+%>

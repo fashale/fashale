@@ -1,0 +1,17 @@
+<%
+    statusHelper = (linkPrefix, status, id, collection) => {
+        let xhtmlStatus = '', link = '';
+        if (collection == "categories" || collection == "brands" || collection == "users" || collection == "products") {
+            status = (status === "Hoạt động") ? "active" : "inactive";
+            link = linkPrefix + 'change-status/' + id + '/' + status;
+            if (status === "active") {
+                xhtmlStatus = `<span class="label label-success">Hoạt động</span>`
+            } else if (status === "inactive") {
+                xhtmlStatus = `<span class="label label-warning">Không hoạt động</span>`
+            }
+            return `<a href="${link}">${xhtmlStatus}</a>`;
+        } else if (collection == "bills") {
+            return ``;//Sửa
+        }
+    }
+%>
