@@ -13,7 +13,8 @@ html, body {
 
 .navbar, footer {
     font-family: 'Roboto', sans-serif;
-    background-color: #F7452E;
+	background-color: #F7452E;
+	background-image: linear-gradient(141deg, #9fb8ad 0%, #c06b1b 51%, #e62e0e 75%);
     color: white;
 }
 body {
@@ -21,9 +22,10 @@ body {
 	overflow-x: hidden;
 }
 
+
 /* Navbar */
 .nav-link {
-	font-size: 1.2em;
+	font-size: 1.2em !important;
 	display: block;
 }
 #search-bar {
@@ -88,6 +90,7 @@ footer i {
   margin: 1rem 0 0.5rem 0;
 }
 
+
 /* Card */
 .card:hover {
 	box-shadow: 1px 1px 4px #b4b4b4;
@@ -117,23 +120,8 @@ footer i {
     text-decoration: line-through;
 }
 
-/* Rating */
-.rating i{
-    font-size: 12px;
-    margin: -1px;
-}
-.rating .light {
-    color:#F7CA51;
-}
-.rating .dark {
-    color: #DADADA;
-}
-.rating .half {
-    background: linear-gradient(to right, #F7CA51 0%, #F7CA51 50%, #DADADA 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.rating .comment {
+
+.comment {
     font-size: 12px;
 }
 
@@ -141,3 +129,11 @@ footer i {
 .bigIcon {
     font-size: 18px;
 }
+
+
+
+
+
+
+
+

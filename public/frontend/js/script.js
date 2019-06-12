@@ -14,6 +14,7 @@ function showSearchBar() {
     }
 }
 
+
 $('select[name="sort_in_brand"]').change(function(){
     var path = window.location.pathname.split('/');
     var linkRedirect = '/' + path[1] + '/' + path[2] + '/' + $(this).val();        
@@ -25,3 +26,5 @@ $('select[name="sort_in_category"]').change(function(){
     var linkRedirect = '/' + path[1] + '/' + path[2] + '/' + path[3] + '/' + $(this).val();        
     window.location.pathname = linkRedirect;
 });
+
+

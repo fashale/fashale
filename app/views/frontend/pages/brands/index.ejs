@@ -37,7 +37,7 @@
 
 <link rel="stylesheet" href="frontend/css/category.css">
 
-
+<br><br>
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="gridcard col">
@@ -67,7 +67,7 @@
                                     <p class="mb-2"><%= product.name %></p>
                                 </a>
                                 <a href="/categories/<%= translate(product.category.gender) %>/<%= createSlug(product.category.name) %>/"><small style="color:blueviolet"><%= product.category.name %></small></a>
-                                <p class="pricecurrentprice m-0"><%= product.price %> VND</p>
+                                <p class="price currentprice m-0"><%= product.price %></p>
                                 <small class=""><%= product.promotion %></small>
                             </div>
                         </div>

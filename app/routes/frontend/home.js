@@ -82,13 +82,12 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/search', async (req, res, next) => {
-  console.log('a')
   let params = {};
   params.keyword = ParamsHelpers.getParam(req.query, 'keyword', '');
 
   params.pagination = {
     totalItems: 1,
-    totalItemsPerPage: 4,
+    totalItemsPerPage: 5,
     currentPage: parseInt(ParamsHelpers.getParam(req.query, 'page', 1)),
     pageRanges: 5
   }
