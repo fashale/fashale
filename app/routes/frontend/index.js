@@ -10,5 +10,6 @@ router.use('/auth', require('./auth'));
 router.use('/categories', require('./categories'));
 router.use('/brands', require('./brands'));
 router.use('/details', require('./details'));
+router.use('/bills', require('./bills'));
 
 module.exports = router;

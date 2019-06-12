@@ -45,6 +45,11 @@ module.exports = {
     },
 
     listProductsFrontend: (params = null, options = null) => {
+        if (options.task == 'product-in-id-array') {
+            return ProductModel.find({status: 'Hoạt động', _id: { $in: params.array_id }})
+                        .sort({'created.time': 'desc'});
+        }
+
         if (options.task == 'product-new') {
             return ProductModel.find({status: 'Hoạt động'})
                         .sort({'created.time': 'desc'})

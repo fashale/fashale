@@ -1,0 +1,102 @@
+<% include ./../../helpers/image %>
+
+<% 
+    const collection = 'bills';
+    const linkPrefix = systemConfig.prefixFrontend + `/${collection}/`;
+    const folderUpload = 'uploads/products/';
+%>
+
+<link rel="stylesheet" href="frontend/css/cart.css">
+
+<br><br>
+<div class="row m-0">
+    <div class="col-7">
+        <table class="table">
+            <tbody>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ảnh minh họa</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Thương hiệu</th>
+                                <th>Kích cỡ</th>
+                                <th>Giá</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (productsChoose.length > 0) { 
+                                productsChoose.forEach( (item, index) => { %>
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <%- imageHelper(folderUpload, item.thumb, item.name) %>
+                                </td>
+                                <td>
+                                    <%= item.name %>
+                                </td>
+                                
+                                <td>
+                                    <%= item.brand.name %>
+                                </td>
+                                <td>
+                                    <%= item.size %>
+                                </td>
+                                <td>
+                                    <%= item.price %>
+                                </td>
+                                <td>
+                                    <a href="<%= linkPrefix %>/cart/delete/<%= item.id %>" type="button"
+                                        class="btn btn-danger btn-sm btn-delete">Xóa</a>
+                                </td>
+                            </tr>
+                            <% });
+                            } else { %>
+                            <tr>
+                                <td colspan="9">
+                                    <h3>Không có dữ liệu</h3>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-4 pl-0">
+                    <div class="p-3 bg-white">
+                        <p class="text-muted">Địa điểm</p>
+                        <i class="fa fa-map-marker bigIcon text-muted"></i>
+                        <input class="form-control" name="address" placeholder="Nhập địa điểm" value="">
+                        <hr>
+
+                        <p class="mediumFontSize">Thông tin đơn hàng</p>
+                        <div class="row">
+                            <div class="col">
+                                <p>Tạm tính</p>
+                                <p>Phí giao hàng</p>
+                            </div>
+                            <div class="col text-right">
+                                <p class="price currentprice">100.000</p>
+                                <p class="price currentprice">10.000</p>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col">
+                                <p>Tổng cộng</p>
+                            </div>
+                            <div class="col text-right">
+                                <p class="price currentprice">110.000</p>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block mt-2">Xác nhận giỏ hàng</button>
+                    </div>
+                </div>
+            
+            </tbody>
+        </table>
+    </div>
+</div>

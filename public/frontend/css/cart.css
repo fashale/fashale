@@ -22,3 +22,7 @@
 .mediumFontSize {
     font-size: 18px;
 }
+
+th {
+    width: 13%
+}

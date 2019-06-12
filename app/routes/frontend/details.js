@@ -54,6 +54,7 @@ router.get('/:brand_name/:category_name/:product_name', async (req, res, next) =
         product: productDetail[0],
         productRandomInCategory,
         productRandomInBrand,
+        disabled: (req.session.products_choose_id != undefined && req.session.products_choose_id.includes(productDetail[0].id)) ? true : false,
         user: (req.isAuthenticated()) ? true : false
     });
 });
@@ -73,15 +74,24 @@ router.post('/:brand_name/:category_name/:product_name', async (req, res, next) 
             }
         })
     })
-    let comments_product = [];
-    await ProductModel.getProduct(idProduct).then((product) => {
-        comments_product = product.comments;
-    })
-
-    await ProductModel.addComment(idProduct, comments_product, comment, req.user).then(() => {
+    
+    if (comment.content != undefined) {
+        let comments_product = [];
+        await ProductModel.getProduct(idProduct).then((product) => {
+            comments_product = product.comments;
+        })
+        await ProductModel.addComment(idProduct, comments_product, comment, req.user).then(() => {
+            let linkDetail = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/details/' + brand_name_slug + '/' + category_name_slug + '/' + product_slug);
+            res.redirect(linkDetail);
+        })  
+    } else {
+        if (req.session.products_choose_id == undefined) {
+            req.session.products_choose_id = [];
+        }
+        req.session.products_choose_id.push(idProduct);
         let linkDetail = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/details/' + brand_name_slug + '/' + category_name_slug + '/' + product_slug);
         res.redirect(linkDetail);
-    })  
+    }
 });
 
 

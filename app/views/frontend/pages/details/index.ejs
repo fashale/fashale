@@ -26,8 +26,12 @@
         <div class="bg-white">
             <div class="row container-fluid ml-0 mr-0">
                 <div class="col-sm-6 col-md-6 col-lg-4">
-                    <br><br>
+                    <br>
                     <div id="sliderImg" class="carousel slide imgGroup mx-auto" data-ride="carousel">
+                        <p>
+                            Chỉ còn: <span><%= product.number_remain %> sản phẩm</span>
+                        </p>
+                        <hr>
                         <ol class="carousel-indicators d-none">
                             <li data-target="#sliderImg" data-slide-to="0" class="active"></li>
                             <li data-target="#sliderImg" data-slide-to="1"></li>
@@ -74,7 +78,17 @@
                         <span><%= product.promotion %></span>
                         <hr>
                         <div class="d-flex justify-content-center ml-0 mr-0 mt-3 mb-2">
-                            <a name="" id="" class="btn btn-danger w-50" href="#" role="button">Thêm vào giỏ</a>
+                            <% if (Object.keys(userInfo).length > 0) { 
+                                if (disabled == true) { %>
+                                    <button class="btn btn-danger" role="button" disabled>Thêm vào giỏ</button>
+                                <% } else { %>
+                                    <form class="btn btn-danger w-50" action="/details/<%= createSlug(product.brand.name) %>/<%= createSlug(product.category.name) %>/<%= createSlug(product.name) %>" method="post">
+                                        <button class="btn btn-danger" role="button">Thêm vào giỏ</button>
+                                    </form>
+                                <% }  
+                             } else { %>
+                                <button class="btn btn-danger w-50" onclick="alert('Bạn phải đăng nhập!')" role="button">Thêm vào giỏ</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
