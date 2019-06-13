@@ -27,4 +27,10 @@ $('select[name="sort_in_category"]').change(function(){
     window.location.pathname = linkRedirect;
 });
 
+$('select[name="sort_in_search"]').change(function(){
+    var path = window.location.pathname.split('/');
+    var linkRedirect = '/' + path[1] + '/' + $(this).val();        
+    window.location.pathname = linkRedirect;
+});
+
 

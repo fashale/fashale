@@ -81,7 +81,8 @@ router.get('/', async (req, res, next) => {
   });
 });
 
-router.get('/search', async (req, res, next) => {
+router.get('/search(/:sort_type)?', async (req, res, next) => {
+  let sort_type_slug = ParamsHelpers.getParam(req.params, 'sort_type', 'product-new');
   let params = {};
   params.keyword = ParamsHelpers.getParam(req.query, 'keyword', '');
 
@@ -97,12 +98,13 @@ router.get('/search', async (req, res, next) => {
   });
 
 
-  ProductModel.listProductsFrontend(params, { task: 'product-in-search' }).then((products) => {
+  ProductModel.listProductsFrontend(params, { task: sort_type_slug + '-in-search' }).then((products) => {
     res.render(`${folderView}search`, {
       layout: layoutFrontend,
       pageTitle: 'search',
       products,
-      params
+      params,
+      sort_type_slug
     });
   })
 });

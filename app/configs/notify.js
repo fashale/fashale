@@ -17,7 +17,7 @@ module.exports = {
     BROWSE_SUCCESS: 'Duyệt bài viết thành công!',
     REFUSE_SUCCESS: 'Từ chối bài viết thành công!',
     ERROR_LOGIN: 'Thông tin đăng nhập không chính xác!',
-    ERROR_REGISTER: 'Tên đăng nhập hoặc email hoặc mật khẩu đã tồn tại!',
+    ERROR_REGISTER: 'Email hoặc mật khẩu đã tồn tại!',
     ERROR_CONFIRM_PASSWORD: 'Mật khẩu và Xác nhận mật khẩu phải giống nhau!',
     ERROR_FORGET_PASSWORD: 'Thông tin nhập vào không chính xác!',
     ERROR_CHANGE_PASSWORD: 'Thông tin nhập vào không chính xác!',

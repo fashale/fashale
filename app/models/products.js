@@ -78,7 +78,6 @@ module.exports = {
 
         if (options.task == 'product-view-in-category') {
             return ProductModel.find({status: 'Hoạt động', 'category.id': params.id})
-                        //.limit(10)
                         .sort({views: 'desc'})
                         .skip((params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage))
                         .limit(params.pagination.totalItemsPerPage);
@@ -131,12 +130,28 @@ module.exports = {
             ]);
         }
 
-        if (options.task == 'product-in-search') {
+        if (options.task == 'product-new-in-search') {
             let keyword = new RegExp(params.keyword, 'i');
             return ProductModel.find({status: 'Hoạt động', $or: [{name: keyword}, {summary: keyword}, {content: keyword}] })
                         .sort({'created.time': 'desc'})
                         .skip((params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage))
                         .limit(params.pagination.totalItemsPerPage)
+        }
+
+        if (options.task == 'product-price-in-search') {
+            let keyword = new RegExp(params.keyword, 'i');
+            return ProductModel.find({status: 'Hoạt động', $or: [{name: keyword}, {summary: keyword}, {content: keyword}] })
+                        .sort({price: 'desc'})
+                        .skip((params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage))
+                        .limit(params.pagination.totalItemsPerPage);
+        }
+
+        if (options.task == 'product-view-in-search') {
+            let keyword = new RegExp(params.keyword, 'i');
+            return ProductModel.find({status: 'Hoạt động', $or: [{name: keyword}, {summary: keyword}, {content: keyword}] })
+                        .sort({views: 'desc'})
+                        .skip((params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage))
+                        .limit(params.pagination.totalItemsPerPage);
         }
     },
 

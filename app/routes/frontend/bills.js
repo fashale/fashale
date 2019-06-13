@@ -9,6 +9,8 @@ const systemConfig = require(__path_configs + 'system');
 const folderView = __path_views_frontend + 'pages/bills/';
 const layoutFrontend = __path_views_frontend + 'frontend';
 
+const linkIndex = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/bills/cart');
+
 const pageTitle = 'bills';
 
 router.get('/cart', async (req, res, next) => {
@@ -25,6 +27,18 @@ router.get('/cart', async (req, res, next) => {
         productsChoose
     });
 });
+
+router.get('/cart/delete/:id', (req, res, next) => {
+    let id = ParamsHelpers.getParam(req.params, 'id', '');
+    
+    var index = req.session.products_choose_id.indexOf(id);
+    if (index > -1) {
+        req.session.products_choose_id.splice(index, 1);
+    }
+
+    res.redirect(linkIndex);
+
+})
 
 
 module.exports = router;
