@@ -3,6 +3,19 @@
 
 
 <% 
+    function translate(str) {
+        let result = '';
+        switch (str) {
+            case 'Nam': 
+                result = 'male';
+                break;
+            case 'Nữ':
+                result = 'female';
+                break;
+            default:
+        }
+        return result;
+    }
     function createSlug(value) {
         var str = value;
         str = str.toLowerCase();
@@ -54,6 +67,7 @@
                                     <p class="mb-2"><%= product.name %></p>
                                 </a>
                                 <a href="/brands/<%= createSlug(product.brand.name) %>/"><small style="color:red"><%= product.brand.name %></small></a><br>
+                                <a href="/categories/<%= translate(product.category.gender) %>/<%= createSlug(product.category.name) %>/"><small style="color:blueviolet"><%= product.category.name %></small></a>
                                 <p class="price currentprice m-0"><%= product.price %></p>
                                 <small class=""><%= product.promotion %></small>
                             </div>

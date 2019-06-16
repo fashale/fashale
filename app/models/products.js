@@ -46,8 +46,7 @@ module.exports = {
 
     listProductsFrontend: (params = null, options = null) => {
         if (options.task == 'product-in-id-array') {
-            return ProductModel.find({status: 'Hoạt động', _id: { $in: params.array_id }})
-                        .sort({'created.time': 'desc'});
+            return ProductModel.find({status: 'Hoạt động', _id: { $in: params.array_id }});
         }
 
         if (options.task == 'product-new') {
@@ -199,6 +198,7 @@ module.exports = {
                 user_name: user.name,
                 time: Date.now()
             }
+            product.number_remain = product.number_sell;
             return new ProductModel(product).save();
         }
         if (options.task == "edit") {
@@ -212,7 +212,7 @@ module.exports = {
                 price: product.price,
                 promotion: product.promotion,
                 number_sell: product.number_sell,
-                number_remain: product.number_remain,
+                number_remain: product.number_sell,
                 summary: product.summary,
                 content: product.content,
                 modified: {
@@ -220,6 +220,12 @@ module.exports = {
                     user_name: user.name,
                     time: Date.now()
                 }
+            });
+        }
+        if (options.task == "edit-number-remain") {
+            return ProductModel.updateOne({_id: product.id}, {
+                status: (product.status == "Không hoạt động") ? product.status : 'Hoạt động',
+                number_remain: product.number_remain
             });
         }
     }

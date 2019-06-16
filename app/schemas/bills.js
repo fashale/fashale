@@ -16,6 +16,7 @@ var schema = new mongoose.Schema({
         price: Number,
         number_buy: Number
     }],
+    total_buy: Number,
     delivery_charge: Number,
     total_payment: Number
 });

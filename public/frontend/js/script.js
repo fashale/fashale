@@ -34,3 +34,25 @@ $('select[name="sort_in_search"]').change(function(){
 });
 
 
+$(":input[type='number']").change(function() {
+    let index = parseInt($(this).attr('id'));
+    let list_number = $(':input[name="list_number"]').val().split(',');
+    list_number[index] = $(this).val();
+    $(':input[name="list_number"]').val(list_number.toString());
+
+    let old = parseInt($(this).parent().next().text());
+    $(this).parent().next().text($(this).val() * parseInt($(this).parent().prev().text()) + ' đ');
+    $('#total_buy').text(parseInt($('#total_buy').text()) + parseInt($(this).parent().next().text()) - old);
+    $('#total_payment').text(parseInt($('#total_buy').text()) + parseInt($('#delivery_charge').text()));
+
+    $(this).parent().next().next().children('button').prop('disabled', false);
+});
+
+$("#confirm").click(function(e) {
+    e.preventDefault();
+    let prefixFrontend = '';
+    $('#form_confirm').attr('action', prefixFrontend + '/bills/save').submit();
+});
+
+
+
