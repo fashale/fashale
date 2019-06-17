@@ -1,0 +1,170 @@
+<% include ./../../helpers/status %>
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/filter-status %>
+<%
+    function getDateTime(str) {
+        let year = str.substr(11, 4);
+        let month = '';
+        switch (str.substr(4, 3)) {
+            case 'Jan': 
+                month = '01';
+                break;
+            case 'Feb': 
+                month = '02';
+                break;
+            case 'Mar': 
+                month = '03';
+                break;
+            case 'Apr': 
+                month = '04';
+                break;
+            case 'May': 
+                month = '05';
+                break;
+            case 'Jun': 
+                month = '06';
+                break;
+            case 'Jul': 
+                month = '07';
+                break;
+            case 'Aug': 
+                month = '08';
+                break;
+            case 'Sep': 
+                month = '09';
+                break;
+            case 'Oct': 
+                month = '10';
+                break;
+            case 'Nov': 
+                month = '11';
+                break;
+            case 'Dec': 
+                month = '12';
+                break;
+            default:
+        }
+        let day = str.substr(8, 2);
+        let date = day + "-" + month + "-" + year;
+        let time = str.substr(16,8);
+        return time + " " + date;
+    }
+
+    const collection = 'bills';
+    const linkPrefix = systemConfig.prefixBackend + `/${collection}/`;
+%>
+
+<% include ./../../elements/notify %>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Tìm kiếm & Lọc
+                <a href="<%= linkPrefix %>status/all">
+                    <span id="icon-reload" class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="status-list col-sm-6 pl0">
+                        <%- filterStatusHelper(linkPrefix, statusFilter, params.keyword) %>
+                    </div>
+                    <div class="col-sm-5">
+                        <form action="<%= linkPrefix %>status/<%= params.currentStatus %>" method="GET">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="keyword" placeholder="Tìm kiếm..."
+                                    value="<%= params.keyword %>">
+                                <input type="hidden" value="all">
+
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                                </span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success" type="button"><a
+                                            href="<%= linkPrefix %>status/<%= params.currentStatus %>">Dọn
+                                            dẹp</a></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Danh sách đơn hàng
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Họ tên</th>
+                                <th>Địa chỉ giao hàng</th>
+                                <th>Thời gian xác nhận đơn hàng</th>
+                                <th>Tiền mua hàng</th>
+                                <th>Tiền giao hàng</th>
+                                <th>Tổng tiền</th>
+                                <th>Cụ thể</th>
+                                <th>Tình trạng đơn hàng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (data.length > 0) { 
+                                    data.reverse().forEach( (item, index) => { %>
+                            <tr>
+                                <td>
+                                    <%= (params.pagination.currentPage-1)*(params.pagination.totalItemsPerPage) + index + 1 %>
+                                </td>
+                                <td>
+                                    <%= item.customer.name %>
+                                </td>
+                                <td>
+                                    <%= item.address %>
+                                </td>
+                                <td>
+                                    <%= getDateTime(item.time.toString()) %>
+                                </td>
+                                <td>
+                                    <%= item.total_buy %> đ
+                                </td>
+                                <td>
+                                    <%= item.delivery_charge %> đ
+                                </td>
+                                <td>
+                                    <%= item.total_payment %> đ
+                                </td>
+                                <td>
+                                    <a href="/bills/history/<%= item.id %>">Đơn hàng</a>
+                                </td>
+                                <td>
+                                    <%- statusHelper(linkPrefix, item.status, item.id, collection) %>
+                                </td>
+                            </tr>
+                            <% });
+                                } else { %>
+                            <tr>
+                                <td colspan="9">
+                                    <h3>Không có dữ liệu</h3>
+                                </td>
+                            </tr>
+                            <% } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.keyword) %>
+    </div>
+</div>

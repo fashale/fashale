@@ -4,6 +4,7 @@ var router = express.Router();
 const ProductModel = require(__path_models + 'products');
 const CategoryModel = require(__path_models + 'categories');
 const BrandModel = require(__path_models + 'brands');
+const BillModel = require(__path_models + 'bills');
 const ParamsHelpers = require(__path_helpers + 'params');
 
 const folderView = __path_views_frontend + 'pages/home/';
@@ -29,21 +30,21 @@ router.get('/', async (req, res, next) => {
   });
 
   let productsMostViews = [];
-  await ProductModel.listProductsFrontend(params, {task: 'product-most-views'}).then((products) => {
+  await ProductModel.listProductsFrontend(params, { task: 'product-most-views' }).then((products) => {
     productsMostViews = products;
   });
 
   let productsNew = [];
-  await ProductModel.listProductsFrontend(params, {task: 'product-new'}).then((products) => {
+  await ProductModel.listProductsFrontend(params, { task: 'product-new' }).then((products) => {
     productsNew = products;
   });
 
   let productsAllPublish = [];
-  await ProductModel.listProductsFrontend(params, {task: 'product'}).then((products) => {
+  await ProductModel.listProductsFrontend(params, { task: 'product' }).then((products) => {
     productsAllPublish = products;
   });
 
-  
+
 
   let productsTopNewCategories = [];
   await CategoryModel.listCategories().then((categories) => {
@@ -69,6 +70,53 @@ router.get('/', async (req, res, next) => {
     })
   })
 
+  // Tìm sản phẩm bán chạy
+
+  let statistics = [];
+  let list_id = [];
+  await BillModel.listAllBillsDelivered().then((data) => {
+    let products = [];
+    data.forEach((bill) => {
+      bill.products.forEach((product) => {
+        products.push(product);
+      })
+    })
+    products.forEach((product) => {
+      if (list_id.includes(product.id)) {
+        let index = list_id.indexOf(product.id);
+        statistics[index].number_buy += product.number_buy;
+      } else {
+        list_id.push(product.id);
+        let statistic = {
+          name: product.name,
+          price: product.price,
+          number_buy: product.number_buy
+        }
+        statistics.push(statistic)
+      }
+    })
+  })
+
+  let products_choose = [];
+  await ProductModel.listProductsFrontend({ array_id: list_id }, { task: 'product-in-statistics' }).then((items) => {
+    products_choose = items;
+  })
+
+
+  await list_id.forEach((id) => {
+    for (let i = 0; i < products_choose.length; i++) {
+      if (products_choose[i].id == id) {
+        statistics[i].category = products_choose[i].category.name;
+        statistics[i].brand = products_choose[i].brand.name;
+        statistics[i].size = products_choose[i].size;
+        statistics[i].promotion = products_choose[i].promotion;
+        statistics[i].gender = products_choose[i].category.gender;
+        statistics[i].thumb = products_choose[i].thumb;
+      }
+    }
+  })
+
+  let productsBestSell = statistics.sort(function (a, b) { return b.number_buy - a.number_buy }).slice(0, 10);
 
   res.render(`${folderView}index`, {
     layout: layoutFrontend,
@@ -77,6 +125,7 @@ router.get('/', async (req, res, next) => {
     productsTopNewCategories,
     productsTopNewBrands,
     productsMostViews,
+    productsBestSell,
     params
   });
 });

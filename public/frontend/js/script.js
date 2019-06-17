@@ -45,6 +45,10 @@ $(":input[type='number']").change(function() {
     $('#total_buy').text(parseInt($('#total_buy').text()) + parseInt($(this).parent().next().text()) - old);
     $('#total_payment').text(parseInt($('#total_buy').text()) + parseInt($('#delivery_charge').text()));
 
+    $(':input[name="total_buy"]').val($('#total_buy').text());
+    $(':input[name="delivery_charge"]').val($('#delivery_charge').text());
+    $(':input[name="total_payment"]').val($('#total_payment').text());
+
     $(this).parent().next().next().children('button').prop('disabled', false);
 });
 

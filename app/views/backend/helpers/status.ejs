@@ -10,8 +10,42 @@
                 xhtmlStatus = `<span class="label label-warning">Không hoạt động</span>`
             }
             return `<a href="${link}">${xhtmlStatus}</a>`;
-        } else if (collection == "bills") {
-            return ``;//Sửa
+        } else if (collection == 'bills') {
+            link = linkPrefix + 'change-status/' + id + '/';
+            let xhtmlStatus = ``;
+            switch(status) {
+                case 'Chưa giao hàng':
+                    xhtmlStatus = `
+                    <a href="${link + 'not-delivery'}" class="btn m-b-sm btn-warning btn-sm" disabled>Chưa</a>
+                    <a href="${link + 'delivery'}" class="btn m-b-sm btn-primary btn-sm">Đang</span></a>
+                    <a href="${link + 'delivered'}" class="btn m-b-sm btn-success btn-sm">Đã</span></a>
+                    <a href="${link + 'canceled'}" class="btn m-b-sm btn-danger btn-sm">Hủy</span></a>`;
+                    break;
+                case 'Đang giao hàng':
+                    xhtmlStatus = `
+                    <a href="${link + 'not-delivery'}" class="btn m-b-sm btn-warning btn-sm">Chưa</a>
+                    <a href="${link + 'delivery'}" class="btn m-b-sm btn-primary btn-sm" disabled>Đang</span></a>
+                    <a href="${link + 'delivered'}" class="btn m-b-sm btn-success btn-sm">Đã</span></a>
+                    <a href="${link + 'canceled'}" class="btn m-b-sm btn-danger btn-sm">Hủy</span></a>`;
+                    break;
+                case 'Đã giao hàng':
+                    xhtmlStatus = `
+                    <a href="${link + 'not-delivery'}" class="btn m-b-sm btn-warning btn-sm">Chưa</a>
+                    <a href="${link + 'delivery'}" class="btn m-b-sm btn-primary btn-sm">Đang</span></a>
+                    <a href="${link + 'delivered'}" class="btn m-b-sm btn-success btn-sm" disabled>Đã</span></a>
+                    <a href="${link + 'canceled'}" class="btn m-b-sm btn-danger btn-sm">Hủy</span></a>`;
+                    break;
+                case 'Bị hủy đơn hàng':
+                    xhtmlStatus = `
+                    <a href="${link + 'not-delivery'}" class="btn m-b-sm btn-warning btn-sm">Chưa</a>
+                    <a href="${link + 'delivery'}" class="btn m-b-sm btn-primary btn-sm">Đang</span></a>
+                    <a href="${link + 'delivered'}" class="btn m-b-sm btn-success btn-sm">Đã</span></a>
+                    <a href="${link + 'canceled'}" class="btn m-b-sm btn-danger btn-sm" disabled>Hủy</span></a>`;
+                    break;
+                default:   
+            }
+        
+            return xhtmlStatus;
         }
     }
 %>

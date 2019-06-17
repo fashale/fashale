@@ -38,6 +38,11 @@ module.exports = {
             .find({email: email })
     },
 
+    getAllUsersByToken: (resetPasswordToken, resetPasswordExpires) => {
+        return UserModel
+            .find({resetPasswordToken: resetPasswordToken, resetPasswordExpires: resetPasswordExpires })
+    },
+
     getUserByEmailForgetPassword: (email) => {
         return UserModel
             .find({ email: email })
@@ -77,7 +82,9 @@ module.exports = {
         }
         if (options.task == "edit-password") {
             return UserModel.updateOne({ _id: user.id }, {
-                password: user.password
+                password: user.password,
+                resetPasswordToken: undefined,
+                resetPasswordExpires: undefined
             });
         }
         if (options.task == "edit-info") {
@@ -86,6 +93,12 @@ module.exports = {
                 name: user.name,
                 email: user.email,
                 dob: user.dob
+            });
+        }
+        if (options.task == "edit-token") {
+            return UserModel.updateOne({ _id: user.id }, {
+                resetPasswordToken: user.resetPasswordToken,
+                resetPasswordExpires: user.resetPasswordExpires
             });
         }
     }

@@ -1,0 +1,66 @@
+<% 
+    const collection = 'bills';
+    const linkPrefix = systemConfig.prefixFrontend + `/${collection}/`;
+%>
+
+<link rel="stylesheet" href="frontend/css/cart.css">
+
+<br><br>
+<div class="row m-0">
+    <div class="col-8">
+        <table class="table">
+            <tbody>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Thương hiệu</th>
+                                <th>Kích cỡ</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Tổng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (productsChoose.length > 0) { 
+                                    productsChoose.forEach( (item, index) => { %>                  
+                            <tr>
+                                <td>
+                                    <%= index + 1 %>
+                                </td>
+                                <td>
+                                    <%= item.name %>
+                                </td>
+                                <td>
+                                    <%= item.brand.name %>
+                                </td>
+                                <td>
+                                    <%= item.size %>
+                                </td>
+                                <td>
+                                    <%= item.price %> đ
+                                </td>
+                                <td>
+                                    <%= products[index].number_buy %>
+                                </td>
+                                <td>
+                                    <%= item.price * products[index].number_buy %> đ
+                                </td>
+                            </tr>
+                            <% });
+                            } else { %>
+                            <tr>
+                                <td colspan="9">
+                                    <h3>Không có dữ liệu</h3>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </tbody>
+        </table>
+    </div>
+</div>

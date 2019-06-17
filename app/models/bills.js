@@ -1,9 +1,60 @@
-const ParamsHelpers = require(__path_helpers + 'params');
 const BillModel = require(__path_schemas + 'bills');
 const StringHelpers = require(__path_helpers + 'strings');
 
 
 module.exports = {
+    listBills: (params) => {
+        let objWhere = {};
+        if (params.currentStatus !== 'all') objWhere.status = StringHelpers.translate_bill(params.currentStatus); 
+        let keyword = new RegExp(params.keyword, 'i');
+        if (params.keyword !== '') objWhere.$or = [{'customer.name': keyword}, {address: keyword}];
+        return BillModel
+            .find(objWhere)
+            .skip((params.pagination.currentPage - 1) * (params.pagination.totalItemsPerPage))
+            .limit(params.pagination.totalItemsPerPage);
+    },
+
+    listAllBillsDelivered: () => {
+        return BillModel
+            .find({ status: 'Đã giao hàng' });
+    },
+
+    getBill: (id) => {
+        return BillModel.findById(id);
+    },
+
+    countBills: (params) => {
+        let objWhere = {};
+        if (params.currentStatus !== 'all') objWhere.status = StringHelpers.translate_bill(params.currentStatus);
+        let keyword = new RegExp(params.keyword, 'i');
+        if (params.keyword !== '') objWhere.$or = [{'customer.name': keyword}, {address: keyword}];
+        return BillModel.countDocuments(objWhere);
+    },
+
+    listBillsFrontend: (params, options = null) => {
+        return BillModel
+            .find({'customer.id': params.id })
+            .sort({ time: 'desc' });
+    },
+
+    changeStatus: (id, newStatus) => {
+        let data = {
+            status: newStatus
+        }
+        return BillModel.updateOne({ _id: id }, data);
+    },
+
+    cancelBill: (id) => {
+        let data = {
+            status: 'Bị hủy đơn hàng'
+        }
+        return BillModel.updateOne({ _id: id }, data);
+    },
+
+    deleteBill: async (id) => {
+        return BillModel.deleteOne({ _id: id });
+    },
+
     saveBill: (cart, user, options = null) => {
         if (options.task == "add") {
             bill = {

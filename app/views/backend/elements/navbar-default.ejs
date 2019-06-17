@@ -23,10 +23,12 @@
                 <a href="/<%= systemConfig.prefixBackend %>/brands">
                 <% } else if (pageTitle.includes('sản phẩm')) { %>
                 <a href="/<%= systemConfig.prefixBackend %>/products">
-                <% } else if (pageTitle.includes('hóa đơn')) { %>
+                <% } else if (pageTitle.includes('đơn hàng')) { %>
                 <a href="/<%= systemConfig.prefixBackend %>/bills">
                 <% } else if (pageTitle.includes('người dùng')) { %>
                 <a href="/<%= systemConfig.prefixBackend %>/users">  
+                <% } else if (pageTitle.includes('Thống kê')) { %>
+                <a href="/<%= systemConfig.prefixBackend %>/statistics">  
                 <% } %> 
 
                 <i class="fa fa-dashboard fa-fw"></i> CRUD
@@ -61,6 +63,17 @@
                 <ul class="nav nav-second-level collapse on" aria-expanded="true">
                     <li>
                         <a href="/<%= systemConfig.prefixBackend %>/users"><i class="fa fa-angle-double-right   fa-fw"></i> Người dùng </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-group fa-fw"></i> Thống kê
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse on" aria-expanded="true">
+                    <li>
+                        <a href="/<%= systemConfig.prefixBackend %>/statistics"><i class="fa fa-angle-double-right   fa-fw"></i> Thống kê </a>
                     </li>
                 </ul>
             </li>

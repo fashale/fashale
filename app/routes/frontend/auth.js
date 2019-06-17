@@ -4,6 +4,7 @@ var router = express.Router();
 var nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 var passport = require('passport');
+var crypto = require('crypto');
 
 
 const StringHelpers = require(__path_helpers + 'strings');
@@ -17,8 +18,8 @@ const folderView = __path_views_frontend + 'pages/auth/';
 const layoutFrontend = __path_views_frontend + 'frontend';
 const linkIndex = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/');
 const linkLogin = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/auth/login/');
-const linkLogout = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/auth/logout/');
-const linkChangePassword = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/auth/change-password/');
+const linkReset = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/auth/reset/');
+const linkForgetPassword = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/auth/forget-password/');
 
 
 const uploadAvatar = FileHelpers.upload('avatar', 'users/');
@@ -86,7 +87,7 @@ router.post('/register', async (req, res, next) => {
 
 
 router.get('/info', (req, res, next) => {
-    UserModel.getUser(req.user.id).then((user) => { 
+    UserModel.getUser(req.user.id).then((user) => {
         let date = null;
         if (user.dob != null && user.dob != undefined && user.dob.toString().length > 9) {
             date = StringHelpers.getDate(user.dob.toString());
@@ -98,7 +99,7 @@ router.get('/info', (req, res, next) => {
             date,
             pageTitle: 'info'
         });
-    });    
+    });
 });
 
 
@@ -115,7 +116,7 @@ router.post('/info', async (req, res, next) => {
                 FileHelpers.remove('public/uploads/users/', req.file.filename);
             }
             message = errUpload;
-            UserModel.getUser(req.user.id).then((user) => { 
+            UserModel.getUser(req.user.id).then((user) => {
                 let date = null;
                 if (user.dob != null && user.dob != undefined && user.dob.toString().length > 9) {
                     date = StringHelpers.getDate(user.dob.toString());
@@ -128,7 +129,7 @@ router.post('/info', async (req, res, next) => {
                     date,
                     pageTitle: 'info'
                 });
-            });    
+            });
         } else {
             UserModel.getAllUsersByEmail(input.email).then(async (users) => {
                 let user = users[0];
@@ -139,7 +140,7 @@ router.post('/info', async (req, res, next) => {
                         input.avatar = req.file.filename;
                         FileHelpers.remove('public/uploads/users/', input.image_old);
                     }
-    
+
                     input.id = req.user.id;
                     UserModel.saveUser(input, { task: 'edit-info' }).then(() => { //edit info
                         res.redirect(linkIndex);
@@ -148,7 +149,7 @@ router.post('/info', async (req, res, next) => {
                     if (req.file != undefined) {
                         FileHelpers.remove('public/uploads/users/', req.file.filename);
                     }
-                    UserModel.getUser(req.user.id).then((user) => { 
+                    UserModel.getUser(req.user.id).then((user) => {
                         let date = null;
                         if (user.dob != null && user.dob != undefined && user.dob.toString().length > 9) {
                             date = StringHelpers.getDate(user.dob.toString());
@@ -161,7 +162,7 @@ router.post('/info', async (req, res, next) => {
                             date,
                             pageTitle: 'info'
                         });
-                    });    
+                    });
                 }
             })
         }
@@ -176,168 +177,102 @@ router.get('/forget-password', (req, res, next) => {
     });
 });
 
-router.post('/change-password', async (req, res, next) => {
-    req.body = JSON.parse(JSON.stringify(req.body));
-    let input = Object.assign(req.body);
-
-    let isValidPassword = null;
-    if (input.password != undefined && input.password != null) {
-        await UserModel.countUsersRegister(input, 'password').then((number) => {
-            if (number == 0) {
-                isValidPassword = true;
-            } else {
-                isValidPassword = false;
-            }
-        })
+router.post('/forget-password', async (req, res, next) => {
+    var token;
+    await crypto.randomBytes(20, (err, buf) => {
+        token = buf.toString('hex');
+    });
+    let user;
+    await UserModel.getAllUsersByEmail(req.body.email).then((users) => {
+        user = users[0];
+    })
+    if (user == undefined || user.length == 0) {
+        return res.redirect(linkForgetPassword);
     }
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000;
 
-    UserModel.getUserByEmailForgetPassword(input.email).then((users) => {
+    await UserModel.saveUser(user, { task: 'edit-token' }).then(() => { })
+    var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'fashionfashale@gmail.com',
+            pass: 'dangkhoihoaitam'
+        }
+    });
+    var mailOptions = {
+        to: user.email,
+        from: 'fashionfashale@gmail.com',
+        subject: 'Reset Password',
+        text: 'http://' + req.headers.host + '/auth/reset/' + token + '\n\n'
+    }
+    smtpTransport.sendMail(mailOptions, (err) => {})
+    res.redirect(linkForgetPassword);
+
+})
+
+router.get('/reset/:token', (req, res) => {
+    UserModel.getAllUsersByToken(req.params.token, { $gt: Date.now() }).then((users) => {
         let user = users[0];
-        if (user === undefined || user.length == 0) {
-            if (input.pageTitle == 'forget-password') {
-                res.render(`${folderView}forget-password`, {
-                    layout: layoutFrontend,
-                    errors: [notify.ERROR_FORGET_PASSWORD],
-                    pageTitle: 'forget-password'
-                });
-            } else if (input.pageTitle == 'change-password') {
-                res.render(`${folderView}change-password`, {
-                    layout: layoutFrontend,
-                    errors: [notify.ERROR_CHANGE_PASSWORD],
-                    pageTitle: 'change-password'
-                });
-            }
-        } else {
-            // Gửi mail và đổi mật khẩu
-            var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'th16news@gmail.com',// Sửa
-                    pass: 'dangkhoihoaitam' // Sửa
-                }
-            });
-            if (isValidPassword == true) {
-                console.log('true')
-                var mailOptions = {
-                    from: 'th16news@gmail.com',
-                    to: user.email,
-                    subject: 'Mail xác nhận',
-                    html: `<h2>Mật khẩu thay đổi thành công</h2>`    
-                };
-                transporter.sendMail(mailOptions, function(error, info) {
-                    if (error) {
-                    console.log(error);
-                    } else {
-                    console.log('Email sent: ' + info.response);
-                    }
-                });
-                input.id = user.id;
-                UserModel.saveUser(input, { task: 'edit-password' }).then(() => { //edit-password
-                    res.redirect(linkLogout);
-                });
-            } else if (isValidPassword == null) {
-                console.log('null')
-                var mailOptions = {
-                    from: 'th16news@gmail.com',
-                    to: user.email,
-                    subject: 'Mail yêu cầu nhập mật khẩu mới nếu muốn thay đổi',
-                    html: `<link rel="stylesheet" href="frontend/css/signup_style.css">
-                            <div class="signup-form">
-                                <form action="/auth/change-password" method="post">
-                                    <h2>Change Password</h2>
-                                    <p class="hint-text">Change your password</p>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    Nhập password mới
-                                                </div>
-                                            </div>
-                                            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input name="email" value='${user.email}' type="hidden"/>
-                                        <input name="pageTitle" value='${input.pageTitle}' type="hidden"/>
-                                        <button type="submit" class="btn btn-success btn-lg btn-block signup-btn">Gửi</button>
-                                    </div>
-                                </form>
-                            </div>`
-                    };
+        if (user == undefined || user.length == 0) {
+            return res.redirect(linkForgetPassword);
+        }
+        res.render(`${folderView}reset`, {
+            layout: layoutFrontend,
+            errors: null,
+            pageTitle: 'reset',
+            token: req.params.token
+        });
+    })
+})
 
-                    
-                    transporter.sendMail(mailOptions, function(error, info) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
-            } else if (isValidPassword == false) {
-                console.log('false')
-                var transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: 'th16news@gmail.com',
-                        pass: 'dangkhoihoaitam'
-                    }
-                });
+router.post('/reset/:token', async (req, res) => {
 
-                var mailOptions = {
-                    from: 'th16news@gmail.com',
-                    to: user.email,
-                    subject: 'Mail yêu cầu nhập lại mật khẩu mới khác nếu muốn thay đổi',
-                    html: `<link rel="stylesheet" href="frontend/css/signup_style.css">
-                            <div class="signup-form">
-                                <form action="/auth/change-password" method="post">
-                                    <h2>Change Password</h2>
-                                    <p class="hint-text">Change your password</p>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    Nhập password mới
-                                                </div>
-                                            </div>
-                                            <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input name="email" value='${user.email}' type="hidden"/>
-                                        <input name="pageTitle" value='${input.pageTitle}' type="hidden"/>
-                                        <button type="submit" class="btn btn-success btn-lg btn-block signup-btn">Gửi</button>
-                                    </div>
-                                </form>
-                            </div>`
-                    };
-
-                    
-                    transporter.sendMail(mailOptions, function(error, info) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
-            } 
+    let user;
+    await UserModel.getAllUsersByToken(req.params.token, { $gt: Date.now() }).then((users) => {
+        user = users[0];
+        if (user == undefined || user.length == 0) {
+            return res.redirect(linkReset);
         }
     })
-});
+    if (req.body.password == req.body.confirm_password) {
+        const salt = await bcrypt.genSalt(10)
+        user.password = await bcrypt.hash(req.body.password, salt);
+        await UserModel.saveUser(user, { task: 'edit-password' }).then(() => {
+            res.redirect(linkLogin);
+        });
+    } else {
+        return res.render(`${folderView}reset`, {
+            layout: layoutFrontend,
+            errors: [notify.ERROR_CONFIRM_PASSWORD],
+            pageTitle: 'reset',
+            token: req.params.token
+        });
+    }
 
-
-router.get('/change-password', (req, res, next) => {
-    res.render(`${folderView}change-password`, {
-        layout: layoutFrontend,
-        errors: null,
-        pageTitle: 'change-password'
+    var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'fashionfashale@gmail.com',
+            pass: 'dangkhoihoaitam'
+        }
     });
-});
+    var mailOptions = {
+        to: user.email,
+        from: 'fashionfashale@gmail.com',
+        subject: 'Your password has been changed',
+        text: 'Password for your account ' + user.email + ' has been changed'
+    }
+    smtpTransport.sendMail(mailOptions, (err) => {})
+
+    res.redirect(linkReset);
+})
 
 
-router.get('/no-permission', function(req, res, next) {
-  res.render(`${folderView}no-permission`, { 
-      layout: layoutFrontend, 
-      pageTitle: 'ERROR PAGE' 
+router.get('/no-permission', function (req, res, next) {
+    res.render(`${folderView}no-permission`, {
+        layout: layoutFrontend,
+        pageTitle: 'ERROR PAGE'
     });
 });
 

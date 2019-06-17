@@ -1,0 +1,90 @@
+<div class="container mx-auto" style="overflow-x: auto; overflow-y: hidden;">
+    <!-- Pie -->
+    <div id="chart1" style="height: 400px;"></div>
+    <div id="chart2" style="height: 400px;"></div>
+
+    <br>
+    <!-- Detail -->
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Loại sản phẩm</th>
+                        <th scope="col">Thương hiệu</th>
+                        <th scope="col">Kích cỡ</th>
+                        <th scope="col">Số lượng đã bán</th>
+                        <th scope="col">Doanh thu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% let total = 0;
+                    statistics.forEach((item, index) => { 
+                        total += item.price; %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= item.name %></td>
+                            <td><%= item.category %></td>
+                            <td><%= item.brand %></td>
+                            <td><%= item.size %></td>
+                            <td><%= item.number_buy %></td>
+                            <td><%= item.price %> đ</td>
+                        </tr>
+                    <% }) %>
+                    <br>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><b>TỔNG DOANH THU</b></td>
+                        <td><b><%= total %> đ</b></td>
+                    </tr>
+                </tbody>
+                <input class="form-control" name="name_1" id="name_1" value="<%= name_1 %>" type="hidden">
+                <input class="form-control" name="number_1" id="number_1" value="<%= number_1 %>" type="hidden">
+                <input class="form-control" name="name_2" id="name_2" value="<%= name_2 %>" type="hidden">
+                <input class="form-control" name="price_2" id="price_2" value="<%= price_2 %>" type="hidden">
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        let name = document.getElementById('name_1').value.split(',');
+        let number = document.getElementById('number_1').value.split(',');
+        let _name = document.getElementById('name_2').value.split(',');
+        let _price = document.getElementById('price_2').value.split(',');
+
+        let array = [['Sản phẩm', 'Số lượng']];
+        let _array = [['Sản phẩm', 'Doanh thu']];
+        name.forEach((item, index) => {
+            array.push([item, parseInt(number[index]) ]);
+        });
+        _name.forEach((item, index) => {
+            _array.push([item, parseInt(_price[index]) ]);
+        })
+        var data = google.visualization.arrayToDataTable(array);
+        var _data = google.visualization.arrayToDataTable(_array);
+        var options = {
+            title: 'Thống kê sản phẩm bán chạy'
+        };
+        var _options = {
+            title: 'Thống kê sản phẩm theo doanh thu'
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('chart1'));
+        var _chart = new google.visualization.PieChart(document.getElementById('chart2'));
+        chart.draw(data, options);
+        _chart.draw(_data, _options);
+    }
+</script>

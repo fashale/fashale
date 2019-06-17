@@ -49,6 +49,14 @@ module.exports = {
             return ProductModel.find({status: 'Hoạt động', _id: { $in: params.array_id }});
         }
 
+        if (options.task == 'product-in-bill-history') {
+            return ProductModel.find({_id: { $in: params.array_id }});
+        }
+
+        if (options.task == 'product-in-statistics') {
+            return ProductModel.find({_id: { $in: params.array_id }});
+        }
+
         if (options.task == 'product-new') {
             return ProductModel.find({status: 'Hoạt động'})
                         .sort({'created.time': 'desc'})

@@ -20,6 +20,26 @@ let translate = (str) => {
     return result;
 }
 
+let translate_bill = (str) => {
+    let result = '';
+    switch(str) {
+        case 'not-delivery':
+            result = 'Chưa giao hàng';
+            break;
+        case 'delivery':
+            result = 'Đang giao hàng';
+            break;
+        case 'delivered':
+            result = 'Đã giao hàng';
+            break;
+        case 'canceled':
+            result = 'Bị hủy đơn hàng';
+            break;
+        default:
+    }
+    return result;
+}
+
 
 let formatLink = (value) => {
     if (value[1]=="/") {
@@ -75,6 +95,12 @@ let getDate = (str) => {
     return date;
 }
 
+let getDateTime = (str) => {
+    let date = getDate(str);
+    let time = str.substr(16,8);
+    return time + " " + date;
+}
+
 let createSlug = (value) => {
     var str = value;
     str = str.toLowerCase();
@@ -95,6 +121,7 @@ let createSlug = (value) => {
 module.exports = {
     concatTag,
     translate,
+    translate_bill,
     formatLink,
     getDate,
     createSlug

@@ -90,17 +90,22 @@
 <div class="container normalcards seenproduct">
     <h3 class="heading">Sản phẩm bán chạy</h3>
     <div class="row m-0">
-        <div class="card">
-            <div class="img">
-                <img class="card-img-top" src="frontend/img/card1.jpg" alt="cardimg">
+        <% productsBestSell.forEach((product) => { %>
+            <div class="card">
+                <div class="img">
+                    <img class="card-img-top" src="<%= folder_uploads + product.thumb %>" alt="<%= product.thumb %>">
+                </div>
+                <div class="p-2">
+                    <a href="/details/<%= createSlug(product.brand) %>/<%= createSlug(product.category) %>/<%= createSlug(product.name) %>" class="title">
+                        <p class="mb-2"><%= product.name %></p>
+                    </a>
+                    <a href="/brands/<%= createSlug(product.brand) %>/"><small style="color:red"><%= product.brand %></small></a><br>
+                    <a href="/categories/<%= translate(product.gender) %>/<%= createSlug(product.category) %>/"><small style="color:blueviolet"><%= product.category %></small></a>
+                    <p class="price currentprice m-0"><%= product.price %></p>
+                    <small class=""><%= product.promotion %></small>
+                </div>
             </div>
-            <div class="p-2">
-                <a href="#" class="title stretched-link"><p class="mb-2">Tên sản phẩm</p></a>
-                <p class="currentprice m-0">45.000đ</p>
-                <p class="pastprice m-0 text-muted d-inline">45.000đ</p>
-                <small class="">-10%</small>
-            </div>
-        </div>
+        <% }) %>
     </div>
 </div>
 

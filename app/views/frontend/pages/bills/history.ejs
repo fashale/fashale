@@ -1,0 +1,130 @@
+<%
+    function getDateTime(str) {
+        let year = str.substr(11, 4);
+        let month = '';
+        switch (str.substr(4, 3)) {
+            case 'Jan': 
+                month = '01';
+                break;
+            case 'Feb': 
+                month = '02';
+                break;
+            case 'Mar': 
+                month = '03';
+                break;
+            case 'Apr': 
+                month = '04';
+                break;
+            case 'May': 
+                month = '05';
+                break;
+            case 'Jun': 
+                month = '06';
+                break;
+            case 'Jul': 
+                month = '07';
+                break;
+            case 'Aug': 
+                month = '08';
+                break;
+            case 'Sep': 
+                month = '09';
+                break;
+            case 'Oct': 
+                month = '10';
+                break;
+            case 'Nov': 
+                month = '11';
+                break;
+            case 'Dec': 
+                month = '12';
+                break;
+            default:
+        }
+        let day = str.substr(8, 2);
+        let date = day + "-" + month + "-" + year;
+        let time = str.substr(16,8);
+        return time + " " + date;
+    }
+
+    const collection = 'bills';
+    const linkPrefix = systemConfig.prefixFrontend + `/${collection}/`;
+%>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="text-uppercase">Danh sách đơn hàng</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Địa chỉ giao hàng</th>
+                        <th>Thời gian xác nhận đơn hàng</th>
+                        <th>Tiền mua hàng</th>
+                        <th>Tiền giao hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Cụ thể</th>
+                        <th>Tình trạng đơn hàng</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <% if (bills.length > 0) { 
+                                bills.forEach( (item, index) => { %>
+                    <tr>
+                        <td>
+                            <%= index + 1 %>
+                        </td>
+                        <td>
+                            <%= item.address %>
+                        </td>
+                        <td>
+                            <%= getDateTime(item.time.toString()) %>
+                        </td>
+                        <td>
+                            <%= item.total_buy %> đ
+                        </td>
+                        <td>
+                            <%= item.delivery_charge %> đ
+                        </td>
+                        <td>
+                            <%= item.total_payment %> đ
+                        </td>
+                        <td>
+                            <a href="/bills/history/<%= item.id %>">Đơn hàng</a>
+                        </td>
+                        <td>
+                            <% if (item.status == "Chưa giao hàng") { %>
+                                <span class="btn m-b-sm btn-warning btn-sm"><%= item.status %></span>
+                            <% } else if (item.status == "Đang giao hàng") { %>
+                                <span class="btn m-b-sm btn-primary btn-sm"><%= item.status %></span>
+                            <% } else if (item.status == "Đã giao hàng") { %>
+                                <span class="btn m-b-sm btn-success btn-sm"><%= item.status %></span>
+                            <% } else if (item.status == "Bị hủy đơn hàng") { %>
+                                <span class="btn m-b-sm btn-danger btn-sm"><%= item.status %></span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (item.status == "Chưa giao hàng" || item.status == "Đang giao hàng") { %>
+                                <a href="<%= linkPrefix %>cancel/<%= item.id %>" class="btn m-b-sm btn-danger btn-sm">Hủy đơn hàng</a>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% });
+                    } else { %>
+                    <tr>
+                        <td colspan="9">
+                            <h3>Không có dữ liệu</h3>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

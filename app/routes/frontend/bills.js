@@ -3,7 +3,6 @@ var router = express.Router();
 
 const ProductModel = require(__path_models + 'products');
 const BillModel = require(__path_models + 'bills');
-const UserModel = require(__path_models + 'users');
 const StringHelpers = require(__path_helpers + 'strings');
 const ParamsHelpers = require(__path_helpers + 'params');
 const systemConfig = require(__path_configs + 'system');
@@ -12,6 +11,7 @@ const folderView = __path_views_frontend + 'pages/bills/';
 const layoutFrontend = __path_views_frontend + 'frontend';
 
 const linkIndex = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/bills/cart');
+const linkHistory = StringHelpers.formatLink('/' + systemConfig.prefixFrontend + '/bills/history');
 
 const pageTitle = 'bills';
 
@@ -153,6 +153,55 @@ router.post('/save', async (req, res, next) => {
         res.redirect(linkIndex)
     })
 })
+
+router.get('/history(/:id)?', async (req, res, next) => {
+    let id = ParamsHelpers.getParam(req.params, 'id', '');
+
+    if (id == '') {
+        let params = {
+            id: req.user.id
+        }
+        await BillModel.listBillsFrontend(params).then((bills) => {
+            res.render(`${folderView}history`, {
+                layout: layoutFrontend,
+                pageTitle: 'history',
+                bills
+            });
+        })
+    } else {
+        let products = [];
+        await BillModel.getBill(id).then((bill) => {
+            products = bill.products;
+        })
+
+        let params = {};
+        params.array_id = [];
+        await products.forEach((product) => {
+            params.array_id.push(product.id);
+        })
+
+        let productsChoose = [];
+        await ProductModel.listProductsFrontend(params, { task: 'product-in-bill-history' }).then((products) => {
+            productsChoose = products
+        })
+
+        res.render(`${folderView}bill`, {
+            layout: layoutFrontend,
+            pageTitle: 'bill',
+            productsChoose,
+            products
+        });
+    }
+})
+
+
+router.get('/cancel/:id', (req, res, next) => {
+    let id = ParamsHelpers.getParam(req.params, 'id', '');
+  
+    BillModel.cancelBill(id).then(() => {
+      res.redirect(linkHistory);
+    });
+});
 
 
 module.exports = router;

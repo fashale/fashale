@@ -21,5 +21,6 @@ module.exports = {
     ERROR_CONFIRM_PASSWORD: 'Mật khẩu và Xác nhận mật khẩu phải giống nhau!',
     ERROR_FORGET_PASSWORD: 'Thông tin nhập vào không chính xác!',
     ERROR_CHANGE_PASSWORD: 'Thông tin nhập vào không chính xác!',
-    ERROR_INFO: 'Email đã tồn tại!'
+    ERROR_INFO: 'Email đã tồn tại!',
+    CANCEL_SUCCESS: 'Hủy đơn hàng thành công!'
 }

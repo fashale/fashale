@@ -7,7 +7,8 @@ router.use('/', middleAuthentication, require('./products'));
 router.use('/products', require('./products'));
 router.use('/categories', require('./categories'));
 router.use('/brands', require('./brands'));
-//router.use('/bills', require('./bills'));
+router.use('/bills', require('./bills'));
 router.use('/users', require('./users'));
+router.use('/statistics', require('./statistics'));
 
 module.exports = router;

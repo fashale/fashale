@@ -7,7 +7,9 @@ var schema = new mongoose.Schema({
     status: String,
     email: String,
     dob: Date,
-    password: String
+    password: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 });
 
 module.exports = mongoose.model(clusterConfig.collection_users, schema);
