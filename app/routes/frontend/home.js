@@ -106,6 +106,9 @@ router.get('/', async (req, res, next) => {
   await list_id.forEach((id) => {
     for (let i = 0; i < products_choose.length; i++) {
       if (products_choose[i].id == id) {
+        statistics[i].name = products_choose[i].name;
+        statistics[i].price = products_choose[i].price;
+        statistics[i].number_buy = products_choose[i].number_buy;
         statistics[i].category = products_choose[i].category.name;
         statistics[i].brand = products_choose[i].brand.name;
         statistics[i].size = products_choose[i].size;
